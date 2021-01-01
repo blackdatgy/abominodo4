@@ -1,3 +1,4 @@
+package com.game.abominodo4;
 
 public class SpacePlace {
   private int xOrg;

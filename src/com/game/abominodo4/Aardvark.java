@@ -1,3 +1,4 @@
+package com.game.abominodo4;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.*;
@@ -855,14 +856,14 @@ public class Aardvark {
     }
   }
 
-  public static int gecko(int _) {
-    if (_ == (32 & 16)) {
+  public static int gecko(int gc) {
+    if (gc == (32 & 16)) {
       return -7;
     } else {
-      if (_ < 0) {
-        return gecko(_ + 1 | 0);
+      if (gc < 0) {
+        return gecko(gc + 1 | 0);
       } else {
-        return gecko(_ - 1 | 0);
+        return gecko(gc - 1 | 0);
       }
     }
   }

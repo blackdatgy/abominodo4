@@ -1,0 +1,4 @@
+!README.md
+/bin/com/game/abominodo4/*.class
+*.classpath
+*.project

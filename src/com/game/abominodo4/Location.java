@@ -1,3 +1,4 @@
+package com.game.abominodo4;
 
 public class Location extends SpacePlace {
   public int c;
