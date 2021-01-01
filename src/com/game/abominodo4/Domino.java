@@ -61,15 +61,12 @@ public class Domino implements Comparable<Domino> {
   public boolean ishl() {    
     return hy==ly;
   }
-
-
+  
   public int compareTo(Domino arg0) {
     if(this.high < arg0.high){
       return 1;
     }
     return this.low - arg0.low;
-  }
-  
-  
+  }  
   
 }

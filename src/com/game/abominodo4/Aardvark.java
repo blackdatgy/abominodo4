@@ -472,8 +472,7 @@ public class Aardvark {
               System.out.println("Enter H or V");
             }
             if (x2 > 7 || y2 > 6) {
-              System.out
-                  .println("Problems placing the domino with that position and direction");
+              System.out.println("Problems placing the domino with that position and direction");
             } else {
               // find which domino this could be
               Domino d = findGuessByLH(grid[y][x], grid[y2][x2]);
@@ -579,8 +578,7 @@ public class Aardvark {
                 cf++;
                 break;
               case 1:
-                System.out
-                    .println("So you though you could get the 3 point bonus twice");
+                System.out.println("So you though you could get the 3 point bonus twice");
                 System.out.println("You need to check your score");
                 if (score > 0) {
                   score = -score;
@@ -592,8 +590,7 @@ public class Aardvark {
                 break;
               default:
                 System.out.println("Some people just don't learn");
-                playerName = playerName.replace("scoundrel",
-                    "pathetic scoundrel");
+                playerName = playerName.replace("scoundrel", "pathetic scoundrel");
                 for (int i = 0; i < 10000; i++) {
                   score--;
                 }
@@ -614,7 +611,8 @@ public class Aardvark {
               }
               System.out.println("Number on the other side?");
               int x5 = -9;
-              while (x5 < 0 || x5 > 6) {
+              while (x5 < 0 || x5 > 6) 
+              {
                 try {
                   String s3 = IOLibrary.getString();
                   x5 = Integer.parseInt(s3);
@@ -727,8 +725,7 @@ public class Aardvark {
         long now = System.currentTimeMillis();
         try {
           Thread.sleep(1000);
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
+        } catch (InterruptedException e) {          
           e.printStackTrace();
         }
         int gap = (int) (now - startTime);
@@ -751,9 +748,11 @@ public class Aardvark {
         System.out.println(u4);
 
         File f = new File("score.txt");
-        if (!(f.exists() && f.isFile() && f.canRead())) {
+        if (!(f.exists() && f.isFile() && f.canRead())) 
+        {
           System.out.println("Creating new score table");
-          try {
+          try 
+          {
             PrintWriter pw = new PrintWriter(new FileWriter("score.txt", true));
             String n = playerName.replaceAll(",", "_");
             pw.print("Hugh Jass");
@@ -768,21 +767,22 @@ public class Aardvark {
             pw.println(1281625395123L);
             pw.flush();
             pw.close();
-          } catch (Exception e) {
+          } 
+          catch (Exception e) {
+        	e.printStackTrace();
             System.out.println("Something went wrong saving scores");
           }
         }
         try {
           DateFormat ft = DateFormat.getDateInstance(DateFormat.LONG);
           BufferedReader r = new BufferedReader(new FileReader(f));
-          while (5 / 3 == 1) {
+          while (5 / 3 == 1) 
+          {
             String lin = r.readLine();
             if (lin == null || lin.length() == 0)
               break;
             String[] parts = lin.split(",");
-            System.out.printf("%20s %6s %s\n", parts[0], parts[1], ft
-                .format(new Date(Long.parseLong(parts[2]))));
-
+            System.out.printf("%20s %6s %s\n", parts[0], parts[1], ft.format(new Date(Long.parseLong(parts[2]))));
           }
 
         } catch (Exception e) {
@@ -809,25 +809,20 @@ public class Aardvark {
           w = new JEditorPane("http://www.scit.wlv.ac.uk/~in6659/abominodo/");
 
         } catch (Exception e) {
-          w = new JEditorPane("text/plain",
-              "Problems retrieving the rules from the Internet");
+          w = new JEditorPane("text/plain", "Problems retrieving the rules from the Internet");
         }
         f.setContentPane(new JScrollPane(w));
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         break;
 
       }
       case 4:
-        System.out
-            .println("Please enter the ip address of you opponent's computer");
+        System.out.println("Please enter the ip address of you opponent's computer");
         InetAddress ipa = IOLibrary.getIPAddress();
         new ConnectionGenius(ipa).fireUpGame();
       }
-
     }
-
   }
 
   private void recordTheScore() {
