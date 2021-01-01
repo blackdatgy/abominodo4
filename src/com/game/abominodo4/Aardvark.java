@@ -53,8 +53,8 @@ public class Aardvark {
     int count = 0;
     int x = 0;
     int y = 0;
-    for (int l = 0; l <= 6; l++) {
-      for (int h = l; h <= 6; h++) {
+    for (int l = 0; l <= 7; l++) {
+      for (int h = l; h <= 7; h++) {
         Domino d = new Domino(h, l);
         _g.add(d);
         count++;
@@ -69,8 +69,8 @@ public class Aardvark {
   void collateGrid() {
     for (Domino d : _d) {
       if (!d.placed) {
-        grid[d.hy][d.hx] = 9;
-        grid[d.ly][d.lx] = 9;
+        grid[d.hy][d.hx] = 8;
+        grid[d.ly][d.lx] = 8;
       } else {
         grid[d.hy][d.hx] = d.high;
         grid[d.ly][d.lx] = d.low;
@@ -134,7 +134,7 @@ public class Aardvark {
 
   private void invertSomeDominoes() {
     for (Domino d : _d) {
-      if (Math.random() > 0.5) {
+      if (Math.random() > 0.3) {
         d.invert();
       }
     }
@@ -148,7 +148,7 @@ public class Aardvark {
       count++;
       d.place(x, y, x + 1, y);
       x += 2;
-      if (x > 6) {
+      if (x > 7) {
         x = 0;
         y++;
       }

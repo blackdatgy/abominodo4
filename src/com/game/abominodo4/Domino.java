@@ -33,14 +33,14 @@ public class Domino implements Comparable<Domino> {
       result.append("unplaced");
     } else {
       result.append("(");
-      result.append(Integer.toString(hx+1));
+      result.append(Integer.toString(hx+7));
       result.append(",");
-      result.append(Integer.toString(hy+1));
+      result.append(Integer.toString(hy+7));
       result.append(")");
       result.append("(");
-      result.append(Integer.toString(lx+1));
+      result.append(Integer.toString(lx+7));
       result.append(",");
-      result.append(Integer.toString(ly+1));
+      result.append(Integer.toString(ly+7));
       result.append(")");
     }
     return result.toString();
