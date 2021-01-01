@@ -20,7 +20,7 @@ public class PictureFrame {
     }
 
     public void drawGridLines(Graphics g) {
-      g.setColor(Color.GREEN);
+      g.setColor(Color.LIGHT_GRAY);
       for (int are = 0; are <= 7; are++) {
         g.drawLine(20, 20 + are * 20, 180, 20 + are * 20);
       }
@@ -43,8 +43,8 @@ public class PictureFrame {
       if (d.placed) {
         int y = Math.min(d.ly, d.hy);
         int x = Math.min(d.lx, d.hx);
-        int w = Math.abs(d.lx - d.hx) + 2;
-        int h = Math.abs(d.ly - d.hy) + 2;
+        int w = Math.abs(d.lx - d.hx) + 1;
+        int h = Math.abs(d.ly - d.hy) + 1;
         g.setColor(Color.WHITE);
         g.fillRect(20 + x * 20, 20 + y * 20, w * 20, h * 20);
         g.setColor(Color.RED);
@@ -59,7 +59,7 @@ public class PictureFrame {
     void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n) {
       int radius = diameter / 2;
       g.setColor(Color.BLACK);
-      g.drawOval(x - radius, y - radius, diameter, diameter);
+      // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
       String txt = Integer.toString(n);
       g.drawString(txt, x - fm.stringWidth(txt) / 2, y + fm.getMaxAscent() / 2);
@@ -69,7 +69,7 @@ public class PictureFrame {
         Color c) {
       int radius = diameter / 2;
       g.setColor(c);
-      g.drawOval(x - radius, y - radius, diameter, diameter);
+      // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
       String txt = Integer.toString(n);
       g.drawString(txt, x - fm.stringWidth(txt) / 2, y + fm.getMaxAscent() / 2);
@@ -87,11 +87,9 @@ public class PictureFrame {
     }
 
     protected void paintComponent(Graphics g) {
-      g.setColor(Color.RED);
+      g.setColor(Color.YELLOW);
       g.fillRect(0, 0, getWidth(), getHeight());
-     
-      
-       drawGrid(g);
+
       if (master.mode == 1) {
         drawGridLines(g);
         drawHeadings(g);
@@ -126,15 +124,15 @@ public class PictureFrame {
   }
 
   public void reset(Aardvark sf) {
-	  	master = sf;
-	    if (dp == null) {
-	      JFrame f = new JFrame("Abominodo");
-	      dp = new DominoPanel();
-	      f.setContentPane(dp);
-	      f.pack();
-	      f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	      f.setVisible(false);
-	    }
+	master = sf;
+    if (dp == null) 
+    {
+      JFrame f = new JFrame("Abominodo");
+      dp = new DominoPanel();
+      f.setContentPane(dp);
+      f.pack();
+      f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+      f.setVisible(false);
+    }
   }
-
 }
