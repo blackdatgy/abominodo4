@@ -1,0 +1,881 @@
+<!-- Generator: GNU source-highlight 3.1.3
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><font color="#000000">001:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>awt<font color="#990000">.</font>Dimension<font color="#990000">;</font>
+<font color="#000000">002:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>awt<font color="#990000">.</font>Graphics<font color="#990000">;</font>
+<font color="#000000">003:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.*;</font>
+<font color="#000000">004:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>net<font color="#990000">.</font>InetAddress<font color="#990000">;</font>
+<font color="#000000">005:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>text<font color="#990000">.</font>DateFormat<font color="#990000">;</font>
+<font color="#000000">006:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.*;</font>
+<font color="#000000">007:</font> 
+<font color="#000000">008:</font> <b><font color="#000080">import</font></b> javax<font color="#990000">.</font>swing<font color="#990000">.</font>JEditorPane<font color="#990000">;</font>
+<font color="#000000">009:</font> <b><font color="#000080">import</font></b> javax<font color="#990000">.</font>swing<font color="#990000">.</font>JFrame<font color="#990000">;</font>
+<font color="#000000">010:</font> <b><font color="#000080">import</font></b> javax<font color="#990000">.</font>swing<font color="#990000">.</font>JScrollPane<font color="#990000">;</font>
+<font color="#000000">011:</font> 
+<font color="#000000">012:</font> <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">Aardvark</font> <font color="#FF0000">{</font>
+<font color="#000000">013:</font> 
+<font color="#000000">014:</font>   <b><font color="#0000FF">private</font></b> <font color="#008080">String</font> playerName<font color="#990000">;</font>
+<font color="#000000">015:</font>   <b><font color="#0000FF">public</font></b> List<font color="#990000">&lt;</font>Domino<font color="#990000">&gt;</font> _d<font color="#990000">;</font>
+<font color="#000000">016:</font>   <b><font color="#0000FF">public</font></b> List<font color="#990000">&lt;</font>Domino<font color="#990000">&gt;</font> _g<font color="#990000">;</font>
+<font color="#000000">017:</font>   <b><font color="#0000FF">public</font></b> <font color="#009900">int</font><font color="#990000">[][]</font> grid <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <font color="#009900">int</font><font color="#990000">[</font><font color="#993399">7</font><font color="#990000">][</font><font color="#993399">8</font><font color="#990000">];</font>
+<font color="#000000">018:</font>   <b><font color="#0000FF">public</font></b> <font color="#009900">int</font><font color="#990000">[][]</font> gg <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <font color="#009900">int</font><font color="#990000">[</font><font color="#993399">7</font><font color="#990000">][</font><font color="#993399">8</font><font color="#990000">];</font>
+<font color="#000000">019:</font>   <font color="#009900">int</font> mode <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">020:</font>   <font color="#009900">int</font> cf<font color="#990000">;</font>
+<font color="#000000">021:</font>   <font color="#009900">int</font> score<font color="#990000">;</font>
+<font color="#000000">022:</font>   <font color="#009900">long</font> startTime<font color="#990000">;</font>
+<font color="#000000">023:</font> 
+<font color="#000000">024:</font>   <font color="#008080">PictureFrame</font> pf <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">PictureFrame</font></b><font color="#990000">();</font>
+<font color="#000000">025:</font> 
+<font color="#000000">026:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">generateDominoes</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">027:</font>     _d <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Domino<font color="#990000">&gt;();</font>
+<font color="#000000">028:</font>     <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">029:</font>     <font color="#009900">int</font> x <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">030:</font>     <font color="#009900">int</font> y <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">031:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> l <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> l <font color="#990000">&lt;=</font> <font color="#993399">6</font><font color="#990000">;</font> l<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">032:</font>       <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> h <font color="#990000">=</font> l<font color="#990000">;</font> h <font color="#990000">&lt;=</font> <font color="#993399">6</font><font color="#990000">;</font> h<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">033:</font>         <font color="#008080">Domino</font> d <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Domino</font></b><font color="#990000">(</font>h<font color="#990000">,</font> l<font color="#990000">);</font>
+<font color="#000000">034:</font>         _d<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>d<font color="#990000">);</font>
+<font color="#000000">035:</font>         d<font color="#990000">.</font><b><font color="#000000">place</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">,</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">036:</font>         count<font color="#990000">++;</font>
+<font color="#000000">037:</font>         x <font color="#990000">+=</font> <font color="#993399">2</font><font color="#990000">;</font>
+<font color="#000000">038:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>x <font color="#990000">&gt;</font> <font color="#993399">6</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">039:</font>           x <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">040:</font>           y<font color="#990000">++;</font>
+<font color="#000000">041:</font>         <font color="#FF0000">}</font>
+<font color="#000000">042:</font>       <font color="#FF0000">}</font>
+<font color="#000000">043:</font>     <font color="#FF0000">}</font>
+<font color="#000000">044:</font>     <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>count <font color="#990000">!=</font> <font color="#993399">28</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">045:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"something went wrong generating dominoes"</font><font color="#990000">);</font>
+<font color="#000000">046:</font>       System<font color="#990000">.</font><b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">047:</font>     <font color="#FF0000">}</font>
+<font color="#000000">048:</font>   <font color="#FF0000">}</font>
+<font color="#000000">049:</font> 
+<font color="#000000">050:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">generateGuesses</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">051:</font>     _g <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Domino<font color="#990000">&gt;();</font>
+<font color="#000000">052:</font>     <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">053:</font>     <font color="#009900">int</font> x <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">054:</font>     <font color="#009900">int</font> y <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">055:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> l <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> l <font color="#990000">&lt;=</font> <font color="#993399">6</font><font color="#990000">;</font> l<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">056:</font>       <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> h <font color="#990000">=</font> l<font color="#990000">;</font> h <font color="#990000">&lt;=</font> <font color="#993399">6</font><font color="#990000">;</font> h<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">057:</font>         <font color="#008080">Domino</font> d <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Domino</font></b><font color="#990000">(</font>h<font color="#990000">,</font> l<font color="#990000">);</font>
+<font color="#000000">058:</font>         _g<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>d<font color="#990000">);</font>
+<font color="#000000">059:</font>         count<font color="#990000">++;</font>
+<font color="#000000">060:</font>       <font color="#FF0000">}</font>
+<font color="#000000">061:</font>     <font color="#FF0000">}</font>
+<font color="#000000">062:</font>     <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>count <font color="#990000">!=</font> <font color="#993399">28</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">063:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"something went wrong generating dominoes"</font><font color="#990000">);</font>
+<font color="#000000">064:</font>       System<font color="#990000">.</font><b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">065:</font>     <font color="#FF0000">}</font>
+<font color="#000000">066:</font>   <font color="#FF0000">}</font>
+<font color="#000000">067:</font> 
+<font color="#000000">068:</font>   <font color="#009900">void</font> <b><font color="#000000">collateGrid</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">069:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">070:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">(!</font>d<font color="#990000">.</font>placed<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">071:</font>         grid<font color="#990000">[</font>d<font color="#990000">.</font>hy<font color="#990000">][</font>d<font color="#990000">.</font>hx<font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">072:</font>         grid<font color="#990000">[</font>d<font color="#990000">.</font>ly<font color="#990000">][</font>d<font color="#990000">.</font>lx<font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">073:</font>       <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">074:</font>         grid<font color="#990000">[</font>d<font color="#990000">.</font>hy<font color="#990000">][</font>d<font color="#990000">.</font>hx<font color="#990000">]</font> <font color="#990000">=</font> d<font color="#990000">.</font>high<font color="#990000">;</font>
+<font color="#000000">075:</font>         grid<font color="#990000">[</font>d<font color="#990000">.</font>ly<font color="#990000">][</font>d<font color="#990000">.</font>lx<font color="#990000">]</font> <font color="#990000">=</font> d<font color="#990000">.</font>low<font color="#990000">;</font>
+<font color="#000000">076:</font>       <font color="#FF0000">}</font>
+<font color="#000000">077:</font>     <font color="#FF0000">}</font>
+<font color="#000000">078:</font>   <font color="#FF0000">}</font>
+<font color="#000000">079:</font> 
+<font color="#000000">080:</font>   <font color="#009900">void</font> <b><font color="#000000">collateGuessGrid</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">081:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> r <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> r <font color="#990000">&lt;</font> <font color="#993399">7</font><font color="#990000">;</font> r<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">082:</font>       <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> c <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> c <font color="#990000">&lt;</font> <font color="#993399">8</font><font color="#990000">;</font> c<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">083:</font>         gg<font color="#990000">[</font>r<font color="#990000">][</font>c<font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">084:</font>       <font color="#FF0000">}</font>
+<font color="#000000">085:</font>     <font color="#FF0000">}</font>
+<font color="#000000">086:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">087:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>d<font color="#990000">.</font>placed<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">088:</font>         gg<font color="#990000">[</font>d<font color="#990000">.</font>hy<font color="#990000">][</font>d<font color="#990000">.</font>hx<font color="#990000">]</font> <font color="#990000">=</font> d<font color="#990000">.</font>high<font color="#990000">;</font>
+<font color="#000000">089:</font>         gg<font color="#990000">[</font>d<font color="#990000">.</font>ly<font color="#990000">][</font>d<font color="#990000">.</font>lx<font color="#990000">]</font> <font color="#990000">=</font> d<font color="#990000">.</font>low<font color="#990000">;</font>
+<font color="#000000">090:</font>       <font color="#FF0000">}</font>
+<font color="#000000">091:</font>     <font color="#FF0000">}</font>
+<font color="#000000">092:</font>   <font color="#FF0000">}</font>
+<font color="#000000">093:</font> 
+<font color="#000000">094:</font>   <font color="#009900">int</font> <b><font color="#000000">pg</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">095:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> are <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> are <font color="#990000">&lt;</font> <font color="#993399">7</font><font color="#990000">;</font> are<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">096:</font>       <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> see <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> see <font color="#990000">&lt;</font> <font color="#993399">8</font><font color="#990000">;</font> see<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">097:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>grid<font color="#990000">[</font>are<font color="#990000">][</font>see<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#993399">9</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">098:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"%d"</font><font color="#990000">,</font> grid<font color="#990000">[</font>are<font color="#990000">][</font>see<font color="#990000">]);</font>
+<font color="#000000">099:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">100:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">);</font>
+<font color="#000000">101:</font>         <font color="#FF0000">}</font>
+<font color="#000000">102:</font>       <font color="#FF0000">}</font>
+<font color="#000000">103:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">104:</font>     <font color="#FF0000">}</font>
+<font color="#000000">105:</font>     <b><font color="#0000FF">return</font></b> <font color="#993399">11</font><font color="#990000">;</font>
+<font color="#000000">106:</font>   <font color="#FF0000">}</font>
+<font color="#000000">107:</font> 
+<font color="#000000">108:</font>   <font color="#009900">int</font> <b><font color="#000000">printGuessGrid</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">109:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> are <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> are <font color="#990000">&lt;</font> <font color="#993399">7</font><font color="#990000">;</font> are<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">110:</font>       <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> see <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> see <font color="#990000">&lt;</font> <font color="#993399">8</font><font color="#990000">;</font> see<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">111:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>gg<font color="#990000">[</font>are<font color="#990000">][</font>see<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#993399">9</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">112:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"%d"</font><font color="#990000">,</font> gg<font color="#990000">[</font>are<font color="#990000">][</font>see<font color="#990000">]);</font>
+<font color="#000000">113:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">114:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">);</font>
+<font color="#000000">115:</font>         <font color="#FF0000">}</font>
+<font color="#000000">116:</font>       <font color="#FF0000">}</font>
+<font color="#000000">117:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">118:</font>     <font color="#FF0000">}</font>
+<font color="#000000">119:</font>     <b><font color="#0000FF">return</font></b> <font color="#993399">11</font><font color="#990000">;</font>
+<font color="#000000">120:</font>   <font color="#FF0000">}</font>
+<font color="#000000">121:</font> 
+<font color="#000000">122:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">shuffleDominoesOrder</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">123:</font>     <font color="#008080">List&lt;Domino&gt;</font> shuffled <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Domino<font color="#990000">&gt;();</font>
+<font color="#000000">124:</font> 
+<font color="#000000">125:</font>     <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>_d<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">126:</font>       <font color="#009900">int</font> n <font color="#990000">=</font> <font color="#990000">(</font><font color="#009900">int</font><font color="#990000">)</font> <font color="#990000">(</font>Math<font color="#990000">.</font><b><font color="#000000">random</font></b><font color="#990000">()</font> <font color="#990000">*</font> _d<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">());</font>
+<font color="#000000">127:</font>       shuffled<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>_d<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>n<font color="#990000">));</font>
+<font color="#000000">128:</font>       _d<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>n<font color="#990000">);</font>
+<font color="#000000">129:</font>     <font color="#FF0000">}</font>
+<font color="#000000">130:</font> 
+<font color="#000000">131:</font>     _d <font color="#990000">=</font> shuffled<font color="#990000">;</font>
+<font color="#000000">132:</font>   <font color="#FF0000">}</font>
+<font color="#000000">133:</font> 
+<font color="#000000">134:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">invertSomeDominoes</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">135:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">136:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>Math<font color="#990000">.</font><b><font color="#000000">random</font></b><font color="#990000">()</font> <font color="#990000">&gt;</font> <font color="#993399">0.5</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">137:</font>         d<font color="#990000">.</font><b><font color="#000000">invert</font></b><font color="#990000">();</font>
+<font color="#000000">138:</font>       <font color="#FF0000">}</font>
+<font color="#000000">139:</font>     <font color="#FF0000">}</font>
+<font color="#000000">140:</font>   <font color="#FF0000">}</font>
+<font color="#000000">141:</font> 
+<font color="#000000">142:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">placeDominoes</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">143:</font>     <font color="#009900">int</font> x <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">144:</font>     <font color="#009900">int</font> y <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">145:</font>     <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">146:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">147:</font>       count<font color="#990000">++;</font>
+<font color="#000000">148:</font>       d<font color="#990000">.</font><b><font color="#000000">place</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">,</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">149:</font>       x <font color="#990000">+=</font> <font color="#993399">2</font><font color="#990000">;</font>
+<font color="#000000">150:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>x <font color="#990000">&gt;</font> <font color="#993399">6</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">151:</font>         x <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">152:</font>         y<font color="#990000">++;</font>
+<font color="#000000">153:</font>       <font color="#FF0000">}</font>
+<font color="#000000">154:</font>     <font color="#FF0000">}</font>
+<font color="#000000">155:</font>     <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>count <font color="#990000">!=</font> <font color="#993399">28</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">156:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"something went wrong generating dominoes"</font><font color="#990000">);</font>
+<font color="#000000">157:</font>       System<font color="#990000">.</font><b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">158:</font>     <font color="#FF0000">}</font>
+<font color="#000000">159:</font>   <font color="#FF0000">}</font>
+<font color="#000000">160:</font> 
+<font color="#000000">161:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">rotateDominoes</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">162:</font>     <i><font color="#9A1900">// for (Domino d : dominoes) {</font></i>
+<font color="#000000">163:</font>     <i><font color="#9A1900">// if (Math.random() &gt; 0.5) {</font></i>
+<font color="#000000">164:</font>     <i><font color="#9A1900">// System.out.println("rotating " + d);</font></i>
+<font color="#000000">165:</font>     <i><font color="#9A1900">// }</font></i>
+<font color="#000000">166:</font>     <i><font color="#9A1900">// }</font></i>
+<font color="#000000">167:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> x <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> x <font color="#990000">&lt;</font> <font color="#993399">7</font><font color="#990000">;</font> x<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">168:</font>       <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> y <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> y <font color="#990000">&lt;</font> <font color="#993399">6</font><font color="#990000">;</font> y<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">169:</font> 
+<font color="#000000">170:</font>         <b><font color="#000000">tryToRotateDominoAt</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">171:</font>       <font color="#FF0000">}</font>
+<font color="#000000">172:</font>     <font color="#FF0000">}</font>
+<font color="#000000">173:</font>   <font color="#FF0000">}</font>
+<font color="#000000">174:</font> 
+<font color="#000000">175:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">tryToRotateDominoAt</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">176:</font>     <font color="#008080">Domino</font> d <font color="#990000">=</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">177:</font>     <b><font color="#0000FF">if</font></b> <font color="#990000">(</font><b><font color="#000000">thisIsTopLeftOfDomino</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">,</font> d<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">178:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>d<font color="#990000">.</font><b><font color="#000000">ishl</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+<font color="#000000">179:</font>         <font color="#009900">boolean</font> weFancyARotation <font color="#990000">=</font> Math<font color="#990000">.</font><b><font color="#000000">random</font></b><font color="#990000">()</font> <font color="#990000">&lt;</font> <font color="#993399">0.5</font><font color="#990000">;</font>
+<font color="#000000">180:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>weFancyARotation<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">181:</font>           <b><font color="#0000FF">if</font></b> <font color="#990000">(</font><b><font color="#000000">theCellBelowIsTopLeftOfHorizontalDomino</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">182:</font>             <font color="#008080">Domino</font> e <font color="#990000">=</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">);</font>
+<font color="#000000">183:</font>             e<font color="#990000">.</font>hx <font color="#990000">=</font> x<font color="#990000">;</font>
+<font color="#000000">184:</font>             e<font color="#990000">.</font>lx <font color="#990000">=</font> x<font color="#990000">;</font>
+<font color="#000000">185:</font>             d<font color="#990000">.</font>hx <font color="#990000">=</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">186:</font>             d<font color="#990000">.</font>lx <font color="#990000">=</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">187:</font>             e<font color="#990000">.</font>ly <font color="#990000">=</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">188:</font>             e<font color="#990000">.</font>hy <font color="#990000">=</font> y<font color="#990000">;</font>
+<font color="#000000">189:</font>             d<font color="#990000">.</font>ly <font color="#990000">=</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">190:</font>             d<font color="#990000">.</font>hy <font color="#990000">=</font> y<font color="#990000">;</font>
+<font color="#000000">191:</font>           <font color="#FF0000">}</font>
+<font color="#000000">192:</font>         <font color="#FF0000">}</font>
+<font color="#000000">193:</font>       <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">194:</font>         <font color="#009900">boolean</font> weFancyARotation <font color="#990000">=</font> Math<font color="#990000">.</font><b><font color="#000000">random</font></b><font color="#990000">()</font> <font color="#990000">&lt;</font> <font color="#993399">0.5</font><font color="#990000">;</font>
+<font color="#000000">195:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>weFancyARotation<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">196:</font>           <b><font color="#0000FF">if</font></b> <font color="#990000">(</font><b><font color="#000000">theCellToTheRightIsTopLeftOfVerticalDomino</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">197:</font>             <font color="#008080">Domino</font> e <font color="#990000">=</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font>x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">198:</font>             e<font color="#990000">.</font>hx <font color="#990000">=</font> x<font color="#990000">;</font>
+<font color="#000000">199:</font>             e<font color="#990000">.</font>lx <font color="#990000">=</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">200:</font>             d<font color="#990000">.</font>hx <font color="#990000">=</font> x<font color="#990000">;</font>
+<font color="#000000">201:</font>             d<font color="#990000">.</font>lx <font color="#990000">=</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">202:</font>             e<font color="#990000">.</font>ly <font color="#990000">=</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">203:</font>             e<font color="#990000">.</font>hy <font color="#990000">=</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">204:</font>             d<font color="#990000">.</font>ly <font color="#990000">=</font> y<font color="#990000">;</font>
+<font color="#000000">205:</font>             d<font color="#990000">.</font>hy <font color="#990000">=</font> y<font color="#990000">;</font>
+<font color="#000000">206:</font>           <font color="#FF0000">}</font>
+<font color="#000000">207:</font>         <font color="#FF0000">}</font>
+<font color="#000000">208:</font> 
+<font color="#000000">209:</font>       <font color="#FF0000">}</font>
+<font color="#000000">210:</font>     <font color="#FF0000">}</font>
+<font color="#000000">211:</font>   <font color="#FF0000">}</font>
+<font color="#000000">212:</font> 
+<font color="#000000">213:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> <b><font color="#000000">theCellToTheRightIsTopLeftOfVerticalDomino</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">214:</font>     <font color="#008080">Domino</font> e <font color="#990000">=</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font>x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">215:</font>     <b><font color="#0000FF">return</font></b> <b><font color="#000000">thisIsTopLeftOfDomino</font></b><font color="#990000">(</font>x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> y<font color="#990000">,</font> e<font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">!</font>e<font color="#990000">.</font><b><font color="#000000">ishl</font></b><font color="#990000">();</font>
+<font color="#000000">216:</font>   <font color="#FF0000">}</font>
+<font color="#000000">217:</font> 
+<font color="#000000">218:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> <b><font color="#000000">theCellBelowIsTopLeftOfHorizontalDomino</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">219:</font>     <font color="#008080">Domino</font> e <font color="#990000">=</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">);</font>
+<font color="#000000">220:</font>     <b><font color="#0000FF">return</font></b> <b><font color="#000000">thisIsTopLeftOfDomino</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> e<font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> e<font color="#990000">.</font><b><font color="#000000">ishl</font></b><font color="#990000">();</font>
+<font color="#000000">221:</font>   <font color="#FF0000">}</font>
+<font color="#000000">222:</font> 
+<font color="#000000">223:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> <b><font color="#000000">thisIsTopLeftOfDomino</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">,</font> <font color="#008080">Domino</font> d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">224:</font>     <b><font color="#0000FF">return</font></b> <font color="#990000">(</font>x <font color="#990000">==</font> Math<font color="#990000">.</font><b><font color="#000000">min</font></b><font color="#990000">(</font>d<font color="#990000">.</font>lx<font color="#990000">,</font> d<font color="#990000">.</font>hx<font color="#990000">))</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>y <font color="#990000">==</font> Math<font color="#990000">.</font><b><font color="#000000">min</font></b><font color="#990000">(</font>d<font color="#990000">.</font>ly<font color="#990000">,</font> d<font color="#990000">.</font>hy<font color="#990000">));</font>
+<font color="#000000">225:</font>   <font color="#FF0000">}</font>
+<font color="#000000">226:</font> 
+<font color="#000000">227:</font>   <b><font color="#0000FF">private</font></b> <font color="#008080">Domino</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">228:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">229:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">((</font>d<font color="#990000">.</font>lx <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>ly <font color="#990000">==</font> y<font color="#990000">)</font> <font color="#990000">||</font> <font color="#990000">(</font>d<font color="#990000">.</font>hx <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>hy <font color="#990000">==</font> y<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">230:</font>         <b><font color="#0000FF">return</font></b> d<font color="#990000">;</font>
+<font color="#000000">231:</font>       <font color="#FF0000">}</font>
+<font color="#000000">232:</font>     <font color="#FF0000">}</font>
+<font color="#000000">233:</font>     <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+<font color="#000000">234:</font>   <font color="#FF0000">}</font>
+<font color="#000000">235:</font> 
+<font color="#000000">236:</font>   <b><font color="#0000FF">private</font></b> <font color="#008080">Domino</font> <b><font color="#000000">findGuessAt</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">237:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">238:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">((</font>d<font color="#990000">.</font>lx <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>ly <font color="#990000">==</font> y<font color="#990000">)</font> <font color="#990000">||</font> <font color="#990000">(</font>d<font color="#990000">.</font>hx <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>hy <font color="#990000">==</font> y<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">239:</font>         <b><font color="#0000FF">return</font></b> d<font color="#990000">;</font>
+<font color="#000000">240:</font>       <font color="#FF0000">}</font>
+<font color="#000000">241:</font>     <font color="#FF0000">}</font>
+<font color="#000000">242:</font>     <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+<font color="#000000">243:</font>   <font color="#FF0000">}</font>
+<font color="#000000">244:</font> 
+<font color="#000000">245:</font>   <b><font color="#0000FF">private</font></b> <font color="#008080">Domino</font> <b><font color="#000000">findGuessByLH</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">246:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">247:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">((</font>d<font color="#990000">.</font>low <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>high <font color="#990000">==</font> y<font color="#990000">)</font> <font color="#990000">||</font> <font color="#990000">(</font>d<font color="#990000">.</font>high <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>low <font color="#990000">==</font> y<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">248:</font>         <b><font color="#0000FF">return</font></b> d<font color="#990000">;</font>
+<font color="#000000">249:</font>       <font color="#FF0000">}</font>
+<font color="#000000">250:</font>     <font color="#FF0000">}</font>
+<font color="#000000">251:</font>     <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+<font color="#000000">252:</font>   <font color="#FF0000">}</font>
+<font color="#000000">253:</font> 
+<font color="#000000">254:</font>   <b><font color="#0000FF">private</font></b> <font color="#008080">Domino</font> <b><font color="#000000">findDominoByLH</font></b><font color="#990000">(</font><font color="#009900">int</font> x<font color="#990000">,</font> <font color="#009900">int</font> y<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">255:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">256:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">((</font>d<font color="#990000">.</font>low <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>high <font color="#990000">==</font> y<font color="#990000">)</font> <font color="#990000">||</font> <font color="#990000">(</font>d<font color="#990000">.</font>high <font color="#990000">==</font> x <font color="#990000">&amp;&amp;</font> d<font color="#990000">.</font>low <font color="#990000">==</font> y<font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">257:</font>         <b><font color="#0000FF">return</font></b> d<font color="#990000">;</font>
+<font color="#000000">258:</font>       <font color="#FF0000">}</font>
+<font color="#000000">259:</font>     <font color="#FF0000">}</font>
+<font color="#000000">260:</font>     <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+<font color="#000000">261:</font>   <font color="#FF0000">}</font>
+<font color="#000000">262:</font> 
+<font color="#000000">263:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">printDominoes</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">264:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">265:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>d<font color="#990000">);</font>
+<font color="#000000">266:</font>     <font color="#FF0000">}</font>
+<font color="#000000">267:</font>   <font color="#FF0000">}</font>
+<font color="#000000">268:</font> 
+<font color="#000000">269:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">printGuesses</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">270:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">271:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>d<font color="#990000">);</font>
+<font color="#000000">272:</font>     <font color="#FF0000">}</font>
+<font color="#000000">273:</font>   <font color="#FF0000">}</font>
+<font color="#000000">274:</font> 
+<font color="#000000">275:</font>   <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">final</font></b> <font color="#009900">int</font> ZERO <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">276:</font> 
+<font color="#000000">277:</font>   <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">run</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">278:</font>     <font color="#008080">IOSpecialist</font> io <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">IOSpecialist</font></b><font color="#990000">();</font>
+<font color="#000000">279:</font> 
+<font color="#000000">280:</font>     System<font color="#990000">.</font>out
+<font color="#000000">281:</font>         <font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe"</font><font color="#990000">);</font>
+<font color="#000000">282:</font>     System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Version 1.0 (c), Kevan Buckley, 2010"</font><font color="#990000">);</font>
+<font color="#000000">283:</font>     System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">284:</font>     System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>MultiLinugualStringTable<font color="#990000">.</font><b><font color="#000000">getMessage</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">));</font>
+<font color="#000000">285:</font>     playerName <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">286:</font> 
+<font color="#000000">287:</font>     System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"%s %s. %s"</font><font color="#990000">,</font> MultiLinugualStringTable<font color="#990000">.</font><b><font color="#000000">getMessage</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">),</font>
+<font color="#000000">288:</font>         playerName<font color="#990000">,</font> MultiLinugualStringTable<font color="#990000">.</font><b><font color="#000000">getMessage</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">));</font>
+<font color="#000000">289:</font> 
+<font color="#000000">290:</font>     <font color="#009900">int</font> _$_ <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">291:</font>     <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>_$_ <font color="#990000">!=</font> ZERO<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">292:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">293:</font>       <font color="#008080">String</font> h1 <font color="#990000">=</font> <font color="#FF0000">"Main menu"</font><font color="#990000">;</font>
+<font color="#000000">294:</font>       <font color="#008080">String</font> u1 <font color="#990000">=</font> h1<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">,</font> <font color="#FF0000">"="</font><font color="#990000">);</font>
+<font color="#000000">295:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u1<font color="#990000">);</font>
+<font color="#000000">296:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h1<font color="#990000">);</font>
+<font color="#000000">297:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u1<font color="#990000">);</font>
+<font color="#000000">298:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"1) Play"</font><font color="#990000">);</font>
+<font color="#000000">299:</font>       <i><font color="#9A1900">// System.out.println("1) Single player play");</font></i>
+<font color="#000000">300:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"2) View high scores"</font><font color="#990000">);</font>
+<font color="#000000">301:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"3) View rules"</font><font color="#990000">);</font>
+<font color="#000000">302:</font>       <i><font color="#9A1900">// System.out.println("4) Multiplayer play");</font></i>
+<font color="#000000">303:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"0) Quit"</font><font color="#990000">);</font>
+<font color="#000000">304:</font> 
+<font color="#000000">305:</font>       _$_ <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">306:</font>       <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>_$_ <font color="#990000">==</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">307:</font>         <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">308:</font>           <font color="#008080">String</font> s1 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">309:</font>           _$_ <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s1<font color="#990000">);</font>
+<font color="#000000">310:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">311:</font>           _$_ <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">312:</font>         <font color="#FF0000">}</font>
+<font color="#000000">313:</font>       <font color="#FF0000">}</font>
+<font color="#000000">314:</font>       <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>_$_<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">315:</font>       <b><font color="#0000FF">case</font></b> <font color="#993399">0</font><font color="#990000">:</font> <font color="#FF0000">{</font>
+<font color="#000000">316:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>_d <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">317:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"It is a shame that you did not want to play"</font><font color="#990000">);</font>
+<font color="#000000">318:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">319:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Thankyou for playing"</font><font color="#990000">);</font>
+<font color="#000000">320:</font>         <font color="#FF0000">}</font>
+<font color="#000000">321:</font>         System<font color="#990000">.</font><b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">322:</font>         <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">323:</font>       <font color="#FF0000">}</font>
+<font color="#000000">324:</font>       <b><font color="#0000FF">case</font></b> <font color="#993399">1</font><font color="#990000">:</font> <font color="#FF0000">{</font>
+<font color="#000000">325:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">326:</font>         <font color="#008080">String</font> h4 <font color="#990000">=</font> <font color="#FF0000">"Select difficulty"</font><font color="#990000">;</font>
+<font color="#000000">327:</font>         <font color="#008080">String</font> u4 <font color="#990000">=</font> h4<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">,</font> <font color="#FF0000">"="</font><font color="#990000">);</font>
+<font color="#000000">328:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u4<font color="#990000">);</font>
+<font color="#000000">329:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h4<font color="#990000">);</font>
+<font color="#000000">330:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u4<font color="#990000">);</font>
+<font color="#000000">331:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"1) Simples"</font><font color="#990000">);</font>
+<font color="#000000">332:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"2) Not-so-simples"</font><font color="#990000">);</font>
+<font color="#000000">333:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"3) Super-duper-shuffled"</font><font color="#990000">);</font>
+<font color="#000000">334:</font>         <font color="#009900">int</font> c2 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">335:</font>         <b><font color="#0000FF">while</font></b> <font color="#990000">(!(</font>c2 <font color="#990000">==</font> <font color="#993399">1</font> <font color="#990000">||</font> c2 <font color="#990000">==</font> <font color="#993399">2</font> <font color="#990000">||</font> c2 <font color="#990000">==</font> <font color="#993399">3</font><font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">336:</font>           <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">337:</font>             <font color="#008080">String</font> s2 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">338:</font>             c2 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s2<font color="#990000">);</font>
+<font color="#000000">339:</font>           <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">340:</font>             c2 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">341:</font>           <font color="#FF0000">}</font>
+<font color="#000000">342:</font>         <font color="#FF0000">}</font>
+<font color="#000000">343:</font>         <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>c2<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">344:</font>         <b><font color="#0000FF">case</font></b> <font color="#993399">1</font><font color="#990000">:</font>
+<font color="#000000">345:</font>           <b><font color="#000000">generateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">346:</font>           <b><font color="#000000">shuffleDominoesOrder</font></b><font color="#990000">();</font>
+<font color="#000000">347:</font>           <b><font color="#000000">placeDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">348:</font>           <b><font color="#000000">collateGrid</font></b><font color="#990000">();</font>
+<font color="#000000">349:</font>           <i><font color="#9A1900">// printGrid();</font></i>
+<font color="#000000">350:</font>           <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">351:</font>         <b><font color="#0000FF">case</font></b> <font color="#993399">2</font><font color="#990000">:</font>
+<font color="#000000">352:</font>           <b><font color="#000000">generateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">353:</font>           <b><font color="#000000">shuffleDominoesOrder</font></b><font color="#990000">();</font>
+<font color="#000000">354:</font>           <b><font color="#000000">placeDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">355:</font>           <b><font color="#000000">rotateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">356:</font>           <b><font color="#000000">collateGrid</font></b><font color="#990000">();</font>
+<font color="#000000">357:</font>           <i><font color="#9A1900">// printGrid();</font></i>
+<font color="#000000">358:</font>           <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">359:</font>         <b><font color="#0000FF">default</font></b><font color="#990000">:</font>
+<font color="#000000">360:</font>           <b><font color="#000000">generateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">361:</font>           <b><font color="#000000">shuffleDominoesOrder</font></b><font color="#990000">();</font>
+<font color="#000000">362:</font>           <b><font color="#000000">placeDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">363:</font>           <b><font color="#000000">rotateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">364:</font>           <b><font color="#000000">rotateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">365:</font>           <b><font color="#000000">rotateDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">366:</font>           <b><font color="#000000">invertSomeDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">367:</font>           <b><font color="#000000">collateGrid</font></b><font color="#990000">();</font>
+<font color="#000000">368:</font>           <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">369:</font>         <font color="#FF0000">}</font>
+<font color="#000000">370:</font>         <b><font color="#000000">pg</font></b><font color="#990000">();</font>
+<font color="#000000">371:</font>         <b><font color="#000000">generateGuesses</font></b><font color="#990000">();</font>
+<font color="#000000">372:</font>         <b><font color="#000000">collateGuessGrid</font></b><font color="#990000">();</font>
+<font color="#000000">373:</font>         mode <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">374:</font>         cf <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">375:</font>         score <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">376:</font>         startTime <font color="#990000">=</font> System<font color="#990000">.</font><b><font color="#000000">currentTimeMillis</font></b><font color="#990000">();</font>
+<font color="#000000">377:</font>         pf<font color="#990000">.</font><b><font color="#000000">PictureFrame</font></b><font color="#990000">(</font><b><font color="#0000FF">this</font></b><font color="#990000">);</font>
+<font color="#000000">378:</font>         pf<font color="#990000">.</font>dp<font color="#990000">.</font><b><font color="#000000">repaint</font></b><font color="#990000">();</font>
+<font color="#000000">379:</font>         <font color="#009900">int</font> c3 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">380:</font>         <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>c3 <font color="#990000">!=</font> ZERO<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">381:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">382:</font>           <font color="#008080">String</font> h5 <font color="#990000">=</font> <font color="#FF0000">"Play menu"</font><font color="#990000">;</font>
+<font color="#000000">383:</font>           <font color="#008080">String</font> u5 <font color="#990000">=</font> h5<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">,</font> <font color="#FF0000">"="</font><font color="#990000">);</font>
+<font color="#000000">384:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u5<font color="#990000">);</font>
+<font color="#000000">385:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h5<font color="#990000">);</font>
+<font color="#000000">386:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u5<font color="#990000">);</font>
+<font color="#000000">387:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"1) Print the grid"</font><font color="#990000">);</font>
+<font color="#000000">388:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"2) Print the box"</font><font color="#990000">);</font>
+<font color="#000000">389:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"3) Print the dominos"</font><font color="#990000">);</font>
+<font color="#000000">390:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"4) Place a domino"</font><font color="#990000">);</font>
+<font color="#000000">391:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"5) Unplace a domino"</font><font color="#990000">);</font>
+<font color="#000000">392:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"6) Get some assistance"</font><font color="#990000">);</font>
+<font color="#000000">393:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"7) Check your score"</font><font color="#990000">);</font>
+<font color="#000000">394:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"0) Given up"</font><font color="#990000">);</font>
+<font color="#000000">395:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"What do you want to do "</font> <font color="#990000">+</font> playerName <font color="#990000">+</font> <font color="#FF0000">"?"</font><font color="#990000">);</font>
+<font color="#000000">396:</font>           c3 <font color="#990000">=</font> <font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">397:</font>           <i><font color="#9A1900">// make sure the user enters something valid</font></i>
+<font color="#000000">398:</font>           <b><font color="#0000FF">while</font></b> <font color="#990000">(!((</font>c3 <font color="#990000">==</font> <font color="#993399">1</font> <font color="#990000">||</font> c3 <font color="#990000">==</font> <font color="#993399">2</font> <font color="#990000">||</font> c3 <font color="#990000">==</font> <font color="#993399">3</font><font color="#990000">))</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>c3 <font color="#990000">!=</font> <font color="#993399">4</font><font color="#990000">)</font>
+<font color="#000000">399:</font>               <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>c3 <font color="#990000">!=</font> ZERO<font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>c3 <font color="#990000">!=</font> <font color="#993399">5</font><font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>c3 <font color="#990000">!=</font> <font color="#993399">6</font><font color="#990000">)</font> <font color="#990000">&amp;&amp;</font> <font color="#990000">(</font>c3 <font color="#990000">!=</font> <font color="#993399">7</font><font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">400:</font>             <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">401:</font>               <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">402:</font>               c3 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">403:</font>             <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">404:</font>               c3 <font color="#990000">=</font> <b><font color="#000000">gecko</font></b><font color="#990000">(</font><font color="#993399">55</font><font color="#990000">);</font>
+<font color="#000000">405:</font>             <font color="#FF0000">}</font>
+<font color="#000000">406:</font>           <font color="#FF0000">}</font>
+<font color="#000000">407:</font>           <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>c3<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">408:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">0</font><font color="#990000">:</font>
+<font color="#000000">409:</font> 
+<font color="#000000">410:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">411:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">1</font><font color="#990000">:</font>
+<font color="#000000">412:</font>             <b><font color="#000000">pg</font></b><font color="#990000">();</font>
+<font color="#000000">413:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">414:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">2</font><font color="#990000">:</font>
+<font color="#000000">415:</font>             <b><font color="#000000">printGuessGrid</font></b><font color="#990000">();</font>
+<font color="#000000">416:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">417:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">3</font><font color="#990000">:</font>
+<font color="#000000">418:</font>             Collections<font color="#990000">.</font><b><font color="#000000">sort</font></b><font color="#990000">(</font>_g<font color="#990000">);</font>
+<font color="#000000">419:</font>             <b><font color="#000000">printGuesses</font></b><font color="#990000">();</font>
+<font color="#000000">420:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">421:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">4</font><font color="#990000">:</font>
+<font color="#000000">422:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Where will the top left of the domino be?"</font><font color="#990000">);</font>
+<font color="#000000">423:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Column?"</font><font color="#990000">);</font>
+<font color="#000000">424:</font> 
+<font color="#000000">425:</font>             <font color="#009900">int</font> x <font color="#990000">=</font> <b><font color="#000000">gecko</font></b><font color="#990000">(</font><font color="#993399">99</font><font color="#990000">);</font>
+<font color="#000000">426:</font>             <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>x <font color="#990000">&lt;</font> <font color="#993399">1</font> <font color="#990000">||</font> x <font color="#990000">&gt;</font> <font color="#993399">8</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">427:</font>               <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">428:</font>                 <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">429:</font>                 x <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">430:</font>               <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">431:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Bad input"</font><font color="#990000">);</font>
+<font color="#000000">432:</font>                 x <font color="#990000">=</font> <b><font color="#000000">gecko</font></b><font color="#990000">(</font><font color="#993399">65</font><font color="#990000">);</font>
+<font color="#000000">433:</font>               <font color="#FF0000">}</font>
+<font color="#000000">434:</font>             <font color="#FF0000">}</font>
+<font color="#000000">435:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Row?"</font><font color="#990000">);</font>
+<font color="#000000">436:</font>             <font color="#009900">int</font> y <font color="#990000">=</font> <b><font color="#000000">gecko</font></b><font color="#990000">(</font><font color="#993399">98</font><font color="#990000">);</font>
+<font color="#000000">437:</font>             <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>y <font color="#990000">&lt;</font> <font color="#993399">1</font> <font color="#990000">||</font> y <font color="#990000">&gt;</font> <font color="#993399">7</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">438:</font>               <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">439:</font>                 <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">440:</font>                 y <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">441:</font>               <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">442:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Bad input"</font><font color="#990000">);</font>
+<font color="#000000">443:</font>                 y <font color="#990000">=</font> <b><font color="#000000">gecko</font></b><font color="#990000">(</font><font color="#993399">64</font><font color="#990000">);</font>
+<font color="#000000">444:</font>               <font color="#FF0000">}</font>
+<font color="#000000">445:</font>             <font color="#FF0000">}</font>
+<font color="#000000">446:</font>             x<font color="#990000">--;</font>
+<font color="#000000">447:</font>             y<font color="#990000">--;</font>
+<font color="#000000">448:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Horizontal or Vertical (H or V)?"</font><font color="#990000">);</font>
+<font color="#000000">449:</font>             <font color="#009900">boolean</font> horiz<font color="#990000">;</font>
+<font color="#000000">450:</font>             <font color="#009900">int</font> y2<font color="#990000">,</font>
+<font color="#000000">451:</font>             x2<font color="#990000">;</font>
+<font color="#000000">452:</font>             <font color="#008080">Location</font> lotion<font color="#990000">;</font>
+<font color="#000000">453:</font>             <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><font color="#FF0000">"AVFC"</font> <font color="#990000">!=</font> <font color="#FF0000">"BCFC"</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">454:</font>               <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">455:</font>               <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>s3 <font color="#990000">!=</font> <b><font color="#0000FF">null</font></b> <font color="#990000">&amp;&amp;</font> s3<font color="#990000">.</font><b><font color="#000000">toUpperCase</font></b><font color="#990000">().</font><b><font color="#000000">startsWith</font></b><font color="#990000">(</font><font color="#FF0000">"H"</font><font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">456:</font>                 lotion <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Location</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">,</font> Location<font color="#990000">.</font>DIRECTION<font color="#990000">.</font>HORIZONTAL<font color="#990000">);</font>
+<font color="#000000">457:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Direction to place is "</font> <font color="#990000">+</font> lotion<font color="#990000">.</font>d<font color="#990000">);</font>
+<font color="#000000">458:</font>                 horiz <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+<font color="#000000">459:</font>                 x2 <font color="#990000">=</font> x <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">460:</font>                 y2 <font color="#990000">=</font> y<font color="#990000">;</font>
+<font color="#000000">461:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">462:</font>               <font color="#FF0000">}</font>
+<font color="#000000">463:</font>               <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>s3 <font color="#990000">!=</font> <b><font color="#0000FF">null</font></b> <font color="#990000">&amp;&amp;</font> s3<font color="#990000">.</font><b><font color="#000000">toUpperCase</font></b><font color="#990000">().</font><b><font color="#000000">startsWith</font></b><font color="#990000">(</font><font color="#FF0000">"V"</font><font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">464:</font>                 horiz <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+<font color="#000000">465:</font>                 lotion <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Location</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">,</font> Location<font color="#990000">.</font>DIRECTION<font color="#990000">.</font>VERTICAL<font color="#990000">);</font>
+<font color="#000000">466:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Direction to place is "</font> <font color="#990000">+</font> lotion<font color="#990000">.</font>d<font color="#990000">);</font>
+<font color="#000000">467:</font>                 x2 <font color="#990000">=</font> x<font color="#990000">;</font>
+<font color="#000000">468:</font>                 y2 <font color="#990000">=</font> y <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+<font color="#000000">469:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">470:</font>               <font color="#FF0000">}</font>
+<font color="#000000">471:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Enter H or V"</font><font color="#990000">);</font>
+<font color="#000000">472:</font>             <font color="#FF0000">}</font>
+<font color="#000000">473:</font>             <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>x2 <font color="#990000">&gt;</font> <font color="#993399">7</font> <font color="#990000">||</font> y2 <font color="#990000">&gt;</font> <font color="#993399">6</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">474:</font>               System<font color="#990000">.</font>out
+<font color="#000000">475:</font>                   <font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Problems placing the domino with that position and direction"</font><font color="#990000">);</font>
+<font color="#000000">476:</font>             <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">477:</font>               <i><font color="#9A1900">// find which domino this could be</font></i>
+<font color="#000000">478:</font>               <font color="#008080">Domino</font> d <font color="#990000">=</font> <b><font color="#000000">findGuessByLH</font></b><font color="#990000">(</font>grid<font color="#990000">[</font>y<font color="#990000">][</font>x<font color="#990000">],</font> grid<font color="#990000">[</font>y2<font color="#990000">][</font>x2<font color="#990000">]);</font>
+<font color="#000000">479:</font>               <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>d <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">480:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"There is no such domino"</font><font color="#990000">);</font>
+<font color="#000000">481:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">482:</font>               <font color="#FF0000">}</font>
+<font color="#000000">483:</font>               <i><font color="#9A1900">// check if the domino has not already been placed</font></i>
+<font color="#000000">484:</font>               <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>d<font color="#990000">.</font>placed<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">485:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"That domino has already been placed :"</font><font color="#990000">);</font>
+<font color="#000000">486:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>d<font color="#990000">);</font>
+<font color="#000000">487:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">488:</font>               <font color="#FF0000">}</font>
+<font color="#000000">489:</font>               <i><font color="#9A1900">// check guessgrid to make sure the space is vacant</font></i>
+<font color="#000000">490:</font>               <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>gg<font color="#990000">[</font>y<font color="#990000">][</font>x<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#993399">9</font> <font color="#990000">||</font> gg<font color="#990000">[</font>y2<font color="#990000">][</font>x2<font color="#990000">]</font> <font color="#990000">!=</font> <font color="#993399">9</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">491:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Those coordinates are not vacant"</font><font color="#990000">);</font>
+<font color="#000000">492:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">493:</font>               <font color="#FF0000">}</font>
+<font color="#000000">494:</font>               <i><font color="#9A1900">// if all the above is ok, call domino.place and updateGuessGrid</font></i>
+<font color="#000000">495:</font>               gg<font color="#990000">[</font>y<font color="#990000">][</font>x<font color="#990000">]</font> <font color="#990000">=</font> grid<font color="#990000">[</font>y<font color="#990000">][</font>x<font color="#990000">];</font>
+<font color="#000000">496:</font>               gg<font color="#990000">[</font>y2<font color="#990000">][</font>x2<font color="#990000">]</font> <font color="#990000">=</font> grid<font color="#990000">[</font>y2<font color="#990000">][</font>x2<font color="#990000">];</font>
+<font color="#000000">497:</font>               <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>grid<font color="#990000">[</font>y<font color="#990000">][</font>x<font color="#990000">]</font> <font color="#990000">==</font> d<font color="#990000">.</font>high <font color="#990000">&amp;&amp;</font> grid<font color="#990000">[</font>y2<font color="#990000">][</font>x2<font color="#990000">]</font> <font color="#990000">==</font> d<font color="#990000">.</font>low<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">498:</font>                 d<font color="#990000">.</font><b><font color="#000000">place</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">,</font> x2<font color="#990000">,</font> y2<font color="#990000">);</font>
+<font color="#000000">499:</font>               <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">500:</font>                 d<font color="#990000">.</font><b><font color="#000000">place</font></b><font color="#990000">(</font>x2<font color="#990000">,</font> y2<font color="#990000">,</font> x<font color="#990000">,</font> y<font color="#990000">);</font>
+<font color="#000000">501:</font>               <font color="#FF0000">}</font>
+<font color="#000000">502:</font>               score <font color="#990000">+=</font> <font color="#993399">1000</font><font color="#990000">;</font>
+<font color="#000000">503:</font>               <b><font color="#000000">collateGuessGrid</font></b><font color="#990000">();</font>
+<font color="#000000">504:</font>               pf<font color="#990000">.</font>dp<font color="#990000">.</font><b><font color="#000000">repaint</font></b><font color="#990000">();</font>
+<font color="#000000">505:</font>             <font color="#FF0000">}</font>
+<font color="#000000">506:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">507:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">5</font><font color="#990000">:</font>
+<font color="#000000">508:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Enter a position that the domino occupies"</font><font color="#990000">);</font>
+<font color="#000000">509:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Column?"</font><font color="#990000">);</font>
+<font color="#000000">510:</font> 
+<font color="#000000">511:</font>             <font color="#009900">int</font> x13 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">512:</font>             <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>x13 <font color="#990000">&lt;</font> <font color="#993399">1</font> <font color="#990000">||</font> x13 <font color="#990000">&gt;</font> <font color="#993399">8</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">513:</font>               <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">514:</font>                 <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">515:</font>                 x13 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">516:</font>               <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">517:</font>                 x13 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">518:</font>               <font color="#FF0000">}</font>
+<font color="#000000">519:</font>             <font color="#FF0000">}</font>
+<font color="#000000">520:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Row?"</font><font color="#990000">);</font>
+<font color="#000000">521:</font>             <font color="#009900">int</font> y13 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">522:</font>             <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>y13 <font color="#990000">&lt;</font> <font color="#993399">1</font> <font color="#990000">||</font> y13 <font color="#990000">&gt;</font> <font color="#993399">7</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">523:</font>               <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">524:</font>                 <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">525:</font>                 y13 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">526:</font>               <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">527:</font>                 y13 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">528:</font>               <font color="#FF0000">}</font>
+<font color="#000000">529:</font>             <font color="#FF0000">}</font>
+<font color="#000000">530:</font>             x13<font color="#990000">--;</font>
+<font color="#000000">531:</font>             y13<font color="#990000">--;</font>
+<font color="#000000">532:</font>             <font color="#008080">Domino</font> lkj <font color="#990000">=</font> <b><font color="#000000">findGuessAt</font></b><font color="#990000">(</font>x13<font color="#990000">,</font> y13<font color="#990000">);</font>
+<font color="#000000">533:</font>             <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>lkj <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">534:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Couln't find a domino there"</font><font color="#990000">);</font>
+<font color="#000000">535:</font>             <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">536:</font>               lkj<font color="#990000">.</font>placed <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+<font color="#000000">537:</font>               gg<font color="#990000">[</font>lkj<font color="#990000">.</font>hy<font color="#990000">][</font>lkj<font color="#990000">.</font>hx<font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">538:</font>               gg<font color="#990000">[</font>lkj<font color="#990000">.</font>ly<font color="#990000">][</font>lkj<font color="#990000">.</font>lx<font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">539:</font>               score <font color="#990000">-=</font> <font color="#993399">1000</font><font color="#990000">;</font>
+<font color="#000000">540:</font>               <b><font color="#000000">collateGuessGrid</font></b><font color="#990000">();</font>
+<font color="#000000">541:</font>               pf<font color="#990000">.</font>dp<font color="#990000">.</font><b><font color="#000000">repaint</font></b><font color="#990000">();</font>
+<font color="#000000">542:</font>             <font color="#FF0000">}</font>
+<font color="#000000">543:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">544:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">7</font><font color="#990000">:</font>
+<font color="#000000">545:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"%s your score is %d</font><font color="#CC33CC">\n</font><font color="#FF0000">"</font><font color="#990000">,</font> playerName<font color="#990000">,</font> score<font color="#990000">);</font>
+<font color="#000000">546:</font>             <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">547:</font>           <b><font color="#0000FF">case</font></b> <font color="#993399">6</font><font color="#990000">:</font>
+<font color="#000000">548:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">549:</font>             <font color="#008080">String</font> h8 <font color="#990000">=</font> <font color="#FF0000">"So you want to cheat, huh?"</font><font color="#990000">;</font>
+<font color="#000000">550:</font>             <font color="#008080">String</font> u8 <font color="#990000">=</font> h8<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">,</font> <font color="#FF0000">"="</font><font color="#990000">);</font>
+<font color="#000000">551:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u8<font color="#990000">);</font>
+<font color="#000000">552:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h8<font color="#990000">);</font>
+<font color="#000000">553:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u8<font color="#990000">);</font>
+<font color="#000000">554:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"1) Find a particular Domino (costs you 500)"</font><font color="#990000">);</font>
+<font color="#000000">555:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"2) Which domino is at ... (costs you 500)"</font><font color="#990000">);</font>
+<font color="#000000">556:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"3) Find all certainties (costs you 2000)"</font><font color="#990000">);</font>
+<font color="#000000">557:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"4) Find all possibilities (costs you 10000)"</font><font color="#990000">);</font>
+<font color="#000000">558:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"0) You have changed your mind about cheating"</font><font color="#990000">);</font>
+<font color="#000000">559:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"What do you want to do?"</font><font color="#990000">);</font>
+<font color="#000000">560:</font>             <font color="#009900">int</font> yy <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">561:</font>             <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>yy <font color="#990000">&lt;</font> <font color="#993399">0</font> <font color="#990000">||</font> yy <font color="#990000">&gt;</font> <font color="#993399">4</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">562:</font>               <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">563:</font>                 <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">564:</font>                 yy <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">565:</font>               <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">566:</font>                 yy <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">567:</font>               <font color="#FF0000">}</font>
+<font color="#000000">568:</font>             <font color="#FF0000">}</font>
+<font color="#000000">569:</font>             <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>yy<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">570:</font>             <b><font color="#0000FF">case</font></b> <font color="#993399">0</font><font color="#990000">:</font>
+<font color="#000000">571:</font>               <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>cf<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">572:</font>               <b><font color="#0000FF">case</font></b> <font color="#993399">0</font><font color="#990000">:</font>
+<font color="#000000">573:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Well done"</font><font color="#990000">);</font>
+<font color="#000000">574:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"You get a 3 point bonus for honesty"</font><font color="#990000">);</font>
+<font color="#000000">575:</font>                 score<font color="#990000">++;</font>
+<font color="#000000">576:</font>                 score<font color="#990000">++;</font>
+<font color="#000000">577:</font>                 score<font color="#990000">++;</font>
+<font color="#000000">578:</font>                 cf<font color="#990000">++;</font>
+<font color="#000000">579:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">580:</font>               <b><font color="#0000FF">case</font></b> <font color="#993399">1</font><font color="#990000">:</font>
+<font color="#000000">581:</font>                 System<font color="#990000">.</font>out
+<font color="#000000">582:</font>                     <font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"So you though you could get the 3 point bonus twice"</font><font color="#990000">);</font>
+<font color="#000000">583:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"You need to check your score"</font><font color="#990000">);</font>
+<font color="#000000">584:</font>                 <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>score <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">585:</font>                   score <font color="#990000">=</font> <font color="#990000">-</font>score<font color="#990000">;</font>
+<font color="#000000">586:</font>                 <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">587:</font>                   score <font color="#990000">-=</font> <font color="#993399">100</font><font color="#990000">;</font>
+<font color="#000000">588:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">589:</font>                 playerName <font color="#990000">=</font> playerName <font color="#990000">+</font> <font color="#FF0000">"(scoundrel)"</font><font color="#990000">;</font>
+<font color="#000000">590:</font>                 cf<font color="#990000">++;</font>
+<font color="#000000">591:</font>                 <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">592:</font>               <b><font color="#0000FF">default</font></b><font color="#990000">:</font>
+<font color="#000000">593:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Some people just don't learn"</font><font color="#990000">);</font>
+<font color="#000000">594:</font>                 playerName <font color="#990000">=</font> playerName<font color="#990000">.</font><b><font color="#000000">replace</font></b><font color="#990000">(</font><font color="#FF0000">"scoundrel"</font><font color="#990000">,</font>
+<font color="#000000">595:</font>                     <font color="#FF0000">"pathetic scoundrel"</font><font color="#990000">);</font>
+<font color="#000000">596:</font>                 <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> <font color="#993399">10000</font><font color="#990000">;</font> i<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">597:</font>                   score<font color="#990000">--;</font>
+<font color="#000000">598:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">599:</font>               <font color="#FF0000">}</font>
+<font color="#000000">600:</font>               <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">601:</font>             <b><font color="#0000FF">case</font></b> <font color="#993399">1</font><font color="#990000">:</font>
+<font color="#000000">602:</font>               score <font color="#990000">-=</font> <font color="#993399">500</font><font color="#990000">;</font>
+<font color="#000000">603:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Which domino?"</font><font color="#990000">);</font>
+<font color="#000000">604:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Number on one side?"</font><font color="#990000">);</font>
+<font color="#000000">605:</font>               <font color="#009900">int</font> x4 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">606:</font>               <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>x4 <font color="#990000">&lt;</font> <font color="#993399">0</font> <font color="#990000">||</font> x4 <font color="#990000">&gt;</font> <font color="#993399">6</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">607:</font>                 <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">608:</font>                   <font color="#008080">String</font> s3 <font color="#990000">=</font> io<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">609:</font>                   x4 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">610:</font>                 <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">611:</font>                   x4 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">612:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">613:</font>               <font color="#FF0000">}</font>
+<font color="#000000">614:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Number on the other side?"</font><font color="#990000">);</font>
+<font color="#000000">615:</font>               <font color="#009900">int</font> x5 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">616:</font>               <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>x5 <font color="#990000">&lt;</font> <font color="#993399">0</font> <font color="#990000">||</font> x5 <font color="#990000">&gt;</font> <font color="#993399">6</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">617:</font>                 <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">618:</font>                   <font color="#008080">String</font> s3 <font color="#990000">=</font> IOLibrary<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">619:</font>                   x5 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">620:</font>                 <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">621:</font>                   x5 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">622:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">623:</font>               <font color="#FF0000">}</font>
+<font color="#000000">624:</font>               <font color="#008080">Domino</font> dd <font color="#990000">=</font> <b><font color="#000000">findDominoByLH</font></b><font color="#990000">(</font>x5<font color="#990000">,</font> x4<font color="#990000">);</font>
+<font color="#000000">625:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>dd<font color="#990000">);</font>
+<font color="#000000">626:</font> 
+<font color="#000000">627:</font>               <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">628:</font>             <b><font color="#0000FF">case</font></b> <font color="#993399">2</font><font color="#990000">:</font>
+<font color="#000000">629:</font>               score <font color="#990000">-=</font> <font color="#993399">500</font><font color="#990000">;</font>
+<font color="#000000">630:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Which location?"</font><font color="#990000">);</font>
+<font color="#000000">631:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Column?"</font><font color="#990000">);</font>
+<font color="#000000">632:</font>               <font color="#009900">int</font> x3 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">633:</font>               <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>x3 <font color="#990000">&lt;</font> <font color="#993399">1</font> <font color="#990000">||</font> x3 <font color="#990000">&gt;</font> <font color="#993399">8</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">634:</font>                 <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">635:</font>                   <font color="#008080">String</font> s3 <font color="#990000">=</font> IOLibrary<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">636:</font>                   x3 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">637:</font>                 <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">638:</font>                   x3 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">639:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">640:</font>               <font color="#FF0000">}</font>
+<font color="#000000">641:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Row?"</font><font color="#990000">);</font>
+<font color="#000000">642:</font>               <font color="#009900">int</font> y3 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">9</font><font color="#990000">;</font>
+<font color="#000000">643:</font>               <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>y3 <font color="#990000">&lt;</font> <font color="#993399">1</font> <font color="#990000">||</font> y3 <font color="#990000">&gt;</font> <font color="#993399">7</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">644:</font>                 <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">645:</font>                   <font color="#008080">String</font> s3 <font color="#990000">=</font> IOLibrary<font color="#990000">.</font><b><font color="#000000">getString</font></b><font color="#990000">();</font>
+<font color="#000000">646:</font>                   y3 <font color="#990000">=</font> Integer<font color="#990000">.</font><b><font color="#000000">parseInt</font></b><font color="#990000">(</font>s3<font color="#990000">);</font>
+<font color="#000000">647:</font>                 <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">648:</font>                   y3 <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">649:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">650:</font>               <font color="#FF0000">}</font>
+<font color="#000000">651:</font>               x3<font color="#990000">--;</font>
+<font color="#000000">652:</font>               y3<font color="#990000">--;</font>
+<font color="#000000">653:</font>               <font color="#008080">Domino</font> lkj2 <font color="#990000">=</font> <b><font color="#000000">findDominoAt</font></b><font color="#990000">(</font>x3<font color="#990000">,</font> y3<font color="#990000">);</font>
+<font color="#000000">654:</font>               System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>lkj2<font color="#990000">);</font>
+<font color="#000000">655:</font>               <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">656:</font>             <b><font color="#0000FF">case</font></b> <font color="#993399">3</font><font color="#990000">:</font> <font color="#FF0000">{</font>
+<font color="#000000">657:</font>               score <font color="#990000">-=</font> <font color="#993399">2000</font><font color="#990000">;</font>
+<font color="#000000">658:</font>               <font color="#008080">HashMap&lt;Domino, List&lt;Location&gt;&gt;</font> map <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">&lt;</font>Domino<font color="#990000">,</font> List<font color="#990000">&lt;</font>Location<font color="#990000">&gt;&gt;();</font>
+<font color="#000000">659:</font>               <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> r <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> r <font color="#990000">&lt;</font> <font color="#993399">6</font><font color="#990000">;</font> r<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">660:</font>                 <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> c <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> c <font color="#990000">&lt;</font> <font color="#993399">7</font><font color="#990000">;</font> c<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">661:</font>                   <font color="#008080">Domino</font> hd <font color="#990000">=</font> <b><font color="#000000">findGuessByLH</font></b><font color="#990000">(</font>grid<font color="#990000">[</font>r<font color="#990000">][</font>c<font color="#990000">],</font> grid<font color="#990000">[</font>r<font color="#990000">][</font>c <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">]);</font>
+<font color="#000000">662:</font>                   <font color="#008080">Domino</font> vd <font color="#990000">=</font> <b><font color="#000000">findGuessByLH</font></b><font color="#990000">(</font>grid<font color="#990000">[</font>r<font color="#990000">][</font>c<font color="#990000">],</font> grid<font color="#990000">[</font>r <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">][</font>c<font color="#990000">]);</font>
+<font color="#000000">663:</font>                   <font color="#008080">List&lt;Location&gt;</font> l <font color="#990000">=</font> map<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>hd<font color="#990000">);</font>
+<font color="#000000">664:</font>                   <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">665:</font>                     l <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Location<font color="#990000">&gt;();</font>
+<font color="#000000">666:</font>                     map<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>hd<font color="#990000">,</font> l<font color="#990000">);</font>
+<font color="#000000">667:</font>                   <font color="#FF0000">}</font>
+<font color="#000000">668:</font>                   l<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Location</font></b><font color="#990000">(</font>r<font color="#990000">,</font> c<font color="#990000">));</font>
+<font color="#000000">669:</font>                   l <font color="#990000">=</font> map<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>vd<font color="#990000">);</font>
+<font color="#000000">670:</font>                   <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">671:</font>                     l <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Location<font color="#990000">&gt;();</font>
+<font color="#000000">672:</font>                     map<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>vd<font color="#990000">,</font> l<font color="#990000">);</font>
+<font color="#000000">673:</font>                   <font color="#FF0000">}</font>
+<font color="#000000">674:</font>                   l<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Location</font></b><font color="#990000">(</font>r<font color="#990000">,</font> c<font color="#990000">));</font>
+<font color="#000000">675:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">676:</font>               <font color="#FF0000">}</font>
+<font color="#000000">677:</font>               <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> key <font color="#990000">:</font> map<font color="#990000">.</font><b><font color="#000000">keySet</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+<font color="#000000">678:</font>                 <font color="#008080">List&lt;Location&gt;</font> locs <font color="#990000">=</font> map<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>key<font color="#990000">);</font>
+<font color="#000000">679:</font>                 <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>locs<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">1</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">680:</font>                   <font color="#008080">Location</font> loc <font color="#990000">=</font> locs<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">681:</font>                   System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"[%d%d]"</font><font color="#990000">,</font> key<font color="#990000">.</font>high<font color="#990000">,</font> key<font color="#990000">.</font>low<font color="#990000">);</font>
+<font color="#000000">682:</font>                   System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>loc<font color="#990000">);</font>
+<font color="#000000">683:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">684:</font>               <font color="#FF0000">}</font>
+<font color="#000000">685:</font>               <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">686:</font>             <font color="#FF0000">}</font>
+<font color="#000000">687:</font> 
+<font color="#000000">688:</font>             <b><font color="#0000FF">case</font></b> <font color="#993399">4</font><font color="#990000">:</font> <font color="#FF0000">{</font>
+<font color="#000000">689:</font>               score <font color="#990000">-=</font> <font color="#993399">10000</font><font color="#990000">;</font>
+<font color="#000000">690:</font>               <font color="#008080">HashMap&lt;Domino, List&lt;Location&gt;&gt;</font> map <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">&lt;</font>Domino<font color="#990000">,</font> List<font color="#990000">&lt;</font>Location<font color="#990000">&gt;&gt;();</font>
+<font color="#000000">691:</font>               <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> r <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> r <font color="#990000">&lt;</font> <font color="#993399">6</font><font color="#990000">;</font> r<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">692:</font>                 <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> c <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> c <font color="#990000">&lt;</font> <font color="#993399">7</font><font color="#990000">;</font> c<font color="#990000">++)</font> <font color="#FF0000">{</font>
+<font color="#000000">693:</font>                   <font color="#008080">Domino</font> hd <font color="#990000">=</font> <b><font color="#000000">findGuessByLH</font></b><font color="#990000">(</font>grid<font color="#990000">[</font>r<font color="#990000">][</font>c<font color="#990000">],</font> grid<font color="#990000">[</font>r<font color="#990000">][</font>c <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">]);</font>
+<font color="#000000">694:</font>                   <font color="#008080">Domino</font> vd <font color="#990000">=</font> <b><font color="#000000">findGuessByLH</font></b><font color="#990000">(</font>grid<font color="#990000">[</font>r<font color="#990000">][</font>c<font color="#990000">],</font> grid<font color="#990000">[</font>r <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">][</font>c<font color="#990000">]);</font>
+<font color="#000000">695:</font>                   <font color="#008080">List&lt;Location&gt;</font> l <font color="#990000">=</font> map<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>hd<font color="#990000">);</font>
+<font color="#000000">696:</font>                   <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">697:</font>                     l <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Location<font color="#990000">&gt;();</font>
+<font color="#000000">698:</font>                     map<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>hd<font color="#990000">,</font> l<font color="#990000">);</font>
+<font color="#000000">699:</font>                   <font color="#FF0000">}</font>
+<font color="#000000">700:</font>                   l<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Location</font></b><font color="#990000">(</font>r<font color="#990000">,</font> c<font color="#990000">));</font>
+<font color="#000000">701:</font>                   l <font color="#990000">=</font> map<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>vd<font color="#990000">);</font>
+<font color="#000000">702:</font>                   <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">==</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">703:</font>                     l <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Location<font color="#990000">&gt;();</font>
+<font color="#000000">704:</font>                     map<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>vd<font color="#990000">,</font> l<font color="#990000">);</font>
+<font color="#000000">705:</font>                   <font color="#FF0000">}</font>
+<font color="#000000">706:</font>                   l<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Location</font></b><font color="#990000">(</font>r<font color="#990000">,</font> c<font color="#990000">));</font>
+<font color="#000000">707:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">708:</font>               <font color="#FF0000">}</font>
+<font color="#000000">709:</font>               <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> key <font color="#990000">:</font> map<font color="#990000">.</font><b><font color="#000000">keySet</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+<font color="#000000">710:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"[%d%d]"</font><font color="#990000">,</font> key<font color="#990000">.</font>high<font color="#990000">,</font> key<font color="#990000">.</font>low<font color="#990000">);</font>
+<font color="#000000">711:</font>                 <font color="#008080">List&lt;Location&gt;</font> locs <font color="#990000">=</font> map<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>key<font color="#990000">);</font>
+<font color="#000000">712:</font>                 <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Location</font> loc <font color="#990000">:</font> locs<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">713:</font>                   System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font>loc<font color="#990000">);</font>
+<font color="#000000">714:</font>                 <font color="#FF0000">}</font>
+<font color="#000000">715:</font>                 System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">716:</font>               <font color="#FF0000">}</font>
+<font color="#000000">717:</font>               <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">718:</font>             <font color="#FF0000">}</font>
+<font color="#000000">719:</font>             <font color="#FF0000">}</font>
+<font color="#000000">720:</font>           <font color="#FF0000">}</font>
+<font color="#000000">721:</font> 
+<font color="#000000">722:</font>         <font color="#FF0000">}</font>
+<font color="#000000">723:</font>         mode <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">724:</font>         <b><font color="#000000">pg</font></b><font color="#990000">();</font>
+<font color="#000000">725:</font>         pf<font color="#990000">.</font>dp<font color="#990000">.</font><b><font color="#000000">repaint</font></b><font color="#990000">();</font>
+<font color="#000000">726:</font>         <font color="#009900">long</font> now <font color="#990000">=</font> System<font color="#990000">.</font><b><font color="#000000">currentTimeMillis</font></b><font color="#990000">();</font>
+<font color="#000000">727:</font>         <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">728:</font>           Thread<font color="#990000">.</font><b><font color="#000000">sleep</font></b><font color="#990000">(</font><font color="#993399">1000</font><font color="#990000">);</font>
+<font color="#000000">729:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">InterruptedException</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">730:</font>           <i><font color="#9A1900">// TODO Auto-generated catch block</font></i>
+<font color="#000000">731:</font>           e<font color="#990000">.</font><b><font color="#000000">printStackTrace</font></b><font color="#990000">();</font>
+<font color="#000000">732:</font>         <font color="#FF0000">}</font>
+<font color="#000000">733:</font>         <font color="#009900">int</font> gap <font color="#990000">=</font> <font color="#990000">(</font><font color="#009900">int</font><font color="#990000">)</font> <font color="#990000">(</font>now <font color="#990000">-</font> startTime<font color="#990000">);</font>
+<font color="#000000">734:</font>         <font color="#009900">int</font> bonus <font color="#990000">=</font> <font color="#993399">60000</font> <font color="#990000">-</font> gap<font color="#990000">;</font>
+<font color="#000000">735:</font>         score <font color="#990000">+=</font> bonus <font color="#990000">&gt;</font> <font color="#993399">0</font> <font color="#990000">?</font> bonus <font color="#990000">/</font> <font color="#993399">1000</font> <font color="#990000">:</font> <font color="#993399">0</font><font color="#990000">;</font>
+<font color="#000000">736:</font>         <b><font color="#000000">recordTheScore</font></b><font color="#990000">();</font>
+<font color="#000000">737:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Here is the solution:"</font><font color="#990000">);</font>
+<font color="#000000">738:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">();</font>
+<font color="#000000">739:</font>         Collections<font color="#990000">.</font><b><font color="#000000">sort</font></b><font color="#990000">(</font>_d<font color="#990000">);</font>
+<font color="#000000">740:</font>         <b><font color="#000000">printDominoes</font></b><font color="#990000">();</font>
+<font color="#000000">741:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"you scored "</font> <font color="#990000">+</font> score<font color="#990000">);</font>
+<font color="#000000">742:</font> 
+<font color="#000000">743:</font>       <font color="#FF0000">}</font>
+<font color="#000000">744:</font>         <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">745:</font>       <b><font color="#0000FF">case</font></b> <font color="#993399">2</font><font color="#990000">:</font> <font color="#FF0000">{</font>
+<font color="#000000">746:</font>         <font color="#008080">String</font> h4 <font color="#990000">=</font> <font color="#FF0000">"High Scores"</font><font color="#990000">;</font>
+<font color="#000000">747:</font>         <font color="#008080">String</font> u4 <font color="#990000">=</font> h4<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">,</font> <font color="#FF0000">"="</font><font color="#990000">);</font>
+<font color="#000000">748:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u4<font color="#990000">);</font>
+<font color="#000000">749:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h4<font color="#990000">);</font>
+<font color="#000000">750:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u4<font color="#990000">);</font>
+<font color="#000000">751:</font> 
+<font color="#000000">752:</font>         <font color="#008080">File</font> f <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">File</font></b><font color="#990000">(</font><font color="#FF0000">"score.txt"</font><font color="#990000">);</font>
+<font color="#000000">753:</font>         <b><font color="#0000FF">if</font></b> <font color="#990000">(!(</font>f<font color="#990000">.</font><b><font color="#000000">exists</font></b><font color="#990000">()</font> <font color="#990000">&amp;&amp;</font> f<font color="#990000">.</font><b><font color="#000000">isFile</font></b><font color="#990000">()</font> <font color="#990000">&amp;&amp;</font> f<font color="#990000">.</font><b><font color="#000000">canRead</font></b><font color="#990000">()))</font> <font color="#FF0000">{</font>
+<font color="#000000">754:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Creating new score table"</font><font color="#990000">);</font>
+<font color="#000000">755:</font>           <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">756:</font>             <font color="#008080">PrintWriter</font> pw <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">PrintWriter</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">FileWriter</font></b><font color="#990000">(</font><font color="#FF0000">"score.txt"</font><font color="#990000">,</font> <b><font color="#0000FF">true</font></b><font color="#990000">));</font>
+<font color="#000000">757:</font>             <font color="#008080">String</font> n <font color="#990000">=</font> playerName<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">,</font> <font color="#FF0000">"_"</font><font color="#990000">);</font>
+<font color="#000000">758:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">"Hugh Jass"</font><font color="#990000">);</font>
+<font color="#000000">759:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">760:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#993399">1500</font><font color="#990000">);</font>
+<font color="#000000">761:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">762:</font>             pw<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#993399">1281625395123L</font><font color="#990000">);</font>
+<font color="#000000">763:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">"Ivana Tinkle"</font><font color="#990000">);</font>
+<font color="#000000">764:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">765:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#993399">1100</font><font color="#990000">);</font>
+<font color="#000000">766:</font>             pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">767:</font>             pw<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#993399">1281625395123L</font><font color="#990000">);</font>
+<font color="#000000">768:</font>             pw<font color="#990000">.</font><b><font color="#000000">flush</font></b><font color="#990000">();</font>
+<font color="#000000">769:</font>             pw<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+<font color="#000000">770:</font>           <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">771:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Something went wrong saving scores"</font><font color="#990000">);</font>
+<font color="#000000">772:</font>           <font color="#FF0000">}</font>
+<font color="#000000">773:</font>         <font color="#FF0000">}</font>
+<font color="#000000">774:</font>         <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">775:</font>           <font color="#008080">DateFormat</font> ft <font color="#990000">=</font> DateFormat<font color="#990000">.</font><b><font color="#000000">getDateInstance</font></b><font color="#990000">(</font>DateFormat<font color="#990000">.</font>LONG<font color="#990000">);</font>
+<font color="#000000">776:</font>           <font color="#008080">BufferedReader</font> r <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">BufferedReader</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">FileReader</font></b><font color="#990000">(</font>f<font color="#990000">));</font>
+<font color="#000000">777:</font>           <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><font color="#993399">5</font> <font color="#990000">/</font> <font color="#993399">3</font> <font color="#990000">==</font> <font color="#993399">1</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">778:</font>             <font color="#008080">String</font> lin <font color="#990000">=</font> r<font color="#990000">.</font><b><font color="#000000">readLine</font></b><font color="#990000">();</font>
+<font color="#000000">779:</font>             <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>lin <font color="#990000">==</font> <b><font color="#0000FF">null</font></b> <font color="#990000">||</font> lin<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">()</font> <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font>
+<font color="#000000">780:</font>               <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">781:</font>             String<font color="#990000">[]</font> parts <font color="#990000">=</font> lin<font color="#990000">.</font><b><font color="#000000">split</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">782:</font>             System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">printf</font></b><font color="#990000">(</font><font color="#FF0000">"%20s %6s %s</font><font color="#CC33CC">\n</font><font color="#FF0000">"</font><font color="#990000">,</font> parts<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">],</font> parts<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">],</font> ft
+<font color="#000000">783:</font>                 <font color="#990000">.</font><b><font color="#000000">format</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Date</font></b><font color="#990000">(</font>Long<font color="#990000">.</font><b><font color="#000000">parseLong</font></b><font color="#990000">(</font>parts<font color="#990000">[</font><font color="#993399">2</font><font color="#990000">]))));</font>
+<font color="#000000">784:</font> 
+<font color="#000000">785:</font>           <font color="#FF0000">}</font>
+<font color="#000000">786:</font> 
+<font color="#000000">787:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">788:</font>           System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Malfunction!!"</font><font color="#990000">);</font>
+<font color="#000000">789:</font>           System<font color="#990000">.</font><b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">790:</font>         <font color="#FF0000">}</font>
+<font color="#000000">791:</font> 
+<font color="#000000">792:</font>       <font color="#FF0000">}</font>
+<font color="#000000">793:</font>         <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">794:</font> 
+<font color="#000000">795:</font>       <b><font color="#0000FF">case</font></b> <font color="#993399">3</font><font color="#990000">:</font> <font color="#FF0000">{</font>
+<font color="#000000">796:</font>         <font color="#008080">String</font> h4 <font color="#990000">=</font> <font color="#FF0000">"Rules"</font><font color="#990000">;</font>
+<font color="#000000">797:</font>         <font color="#008080">String</font> u4 <font color="#990000">=</font> h4<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">"."</font><font color="#990000">,</font> <font color="#FF0000">"="</font><font color="#990000">);</font>
+<font color="#000000">798:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u4<font color="#990000">);</font>
+<font color="#000000">799:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h4<font color="#990000">);</font>
+<font color="#000000">800:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>u4<font color="#990000">);</font>
+<font color="#000000">801:</font>         System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>h4<font color="#990000">);</font>
+<font color="#000000">802:</font> 
+<font color="#000000">803:</font>         <font color="#008080">JFrame</font> f <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">JFrame</font></b><font color="#990000">(</font><font color="#FF0000">"Dicezy rule are like Yahtzee rules"</font><font color="#990000">);</font>
+<font color="#000000">804:</font> 
+<font color="#000000">805:</font>         f<font color="#990000">.</font><b><font color="#000000">setSize</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Dimension</font></b><font color="#990000">(</font><font color="#993399">500</font><font color="#990000">,</font> <font color="#993399">500</font><font color="#990000">));</font>
+<font color="#000000">806:</font>         <font color="#008080">JEditorPane</font> w<font color="#990000">;</font>
+<font color="#000000">807:</font>         <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">808:</font>           w <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">JEditorPane</font></b><font color="#990000">(</font><font color="#FF0000">"http://www.scit.wlv.ac.uk/~in6659/abominodo/"</font><font color="#990000">);</font>
+<font color="#000000">809:</font> 
+<font color="#000000">810:</font>         <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">811:</font>           w <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">JEditorPane</font></b><font color="#990000">(</font><font color="#FF0000">"text/plain"</font><font color="#990000">,</font>
+<font color="#000000">812:</font>               <font color="#FF0000">"Problems retrieving the rules from the Internet"</font><font color="#990000">);</font>
+<font color="#000000">813:</font>         <font color="#FF0000">}</font>
+<font color="#000000">814:</font>         f<font color="#990000">.</font><b><font color="#000000">setContentPane</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">JScrollPane</font></b><font color="#990000">(</font>w<font color="#990000">));</font>
+<font color="#000000">815:</font>         f<font color="#990000">.</font><b><font color="#000000">setVisible</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">);</font>
+<font color="#000000">816:</font>         f<font color="#990000">.</font><b><font color="#000000">setDefaultCloseOperation</font></b><font color="#990000">(</font>JFrame<font color="#990000">.</font>DISPOSE_ON_CLOSE<font color="#990000">);</font>
+<font color="#000000">817:</font> 
+<font color="#000000">818:</font>         <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<font color="#000000">819:</font> 
+<font color="#000000">820:</font>       <font color="#FF0000">}</font>
+<font color="#000000">821:</font>       <b><font color="#0000FF">case</font></b> <font color="#993399">4</font><font color="#990000">:</font>
+<font color="#000000">822:</font>         System<font color="#990000">.</font>out
+<font color="#000000">823:</font>             <font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Please enter the ip address of you opponent's computer"</font><font color="#990000">);</font>
+<font color="#000000">824:</font>         <font color="#008080">InetAddress</font> ipa <font color="#990000">=</font> IOLibrary<font color="#990000">.</font><b><font color="#000000">getIPAddress</font></b><font color="#990000">();</font>
+<font color="#000000">825:</font>         <b><font color="#0000FF">new</font></b> <b><font color="#000000">ConnectionGenius</font></b><font color="#990000">(</font>ipa<font color="#990000">).</font><b><font color="#000000">fireUpGame</font></b><font color="#990000">();</font>
+<font color="#000000">826:</font>       <font color="#FF0000">}</font>
+<font color="#000000">827:</font> 
+<font color="#000000">828:</font>     <font color="#FF0000">}</font>
+<font color="#000000">829:</font> 
+<font color="#000000">830:</font>   <font color="#FF0000">}</font>
+<font color="#000000">831:</font> 
+<font color="#000000">832:</font>   <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">recordTheScore</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">833:</font>     <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">834:</font>       <font color="#008080">PrintWriter</font> pw <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">PrintWriter</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">FileWriter</font></b><font color="#990000">(</font><font color="#FF0000">"score.txt"</font><font color="#990000">,</font> <b><font color="#0000FF">true</font></b><font color="#990000">));</font>
+<font color="#000000">835:</font>       <font color="#008080">String</font> n <font color="#990000">=</font> playerName<font color="#990000">.</font><b><font color="#000000">replaceAll</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">,</font> <font color="#FF0000">"_"</font><font color="#990000">);</font>
+<font color="#000000">836:</font>       pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font>n<font color="#990000">);</font>
+<font color="#000000">837:</font>       pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">838:</font>       pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font>score<font color="#990000">);</font>
+<font color="#000000">839:</font>       pw<font color="#990000">.</font><b><font color="#000000">print</font></b><font color="#990000">(</font><font color="#FF0000">","</font><font color="#990000">);</font>
+<font color="#000000">840:</font>       pw<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>System<font color="#990000">.</font><b><font color="#000000">currentTimeMillis</font></b><font color="#990000">());</font>
+<font color="#000000">841:</font>       pw<font color="#990000">.</font><b><font color="#000000">flush</font></b><font color="#990000">();</font>
+<font color="#000000">842:</font>       pw<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+<font color="#000000">843:</font>     <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">844:</font>       System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font><font color="#FF0000">"Something went wrong saving scores"</font><font color="#990000">);</font>
+<font color="#000000">845:</font>     <font color="#FF0000">}</font>
+<font color="#000000">846:</font>   <font color="#FF0000">}</font>
+<font color="#000000">847:</font> 
+<font color="#000000">848:</font>   <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#009900">void</font> <b><font color="#000000">main</font></b><font color="#990000">(</font>String<font color="#990000">[]</font> args<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">849:</font>     <b><font color="#0000FF">new</font></b> <b><font color="#000000">Aardvark</font></b><font color="#990000">().</font><b><font color="#000000">run</font></b><font color="#990000">();</font>
+<font color="#000000">850:</font>   <font color="#FF0000">}</font>
+<font color="#000000">851:</font> 
+<font color="#000000">852:</font>   <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">drawDominoes</font></b><font color="#990000">(</font><font color="#008080">Graphics</font> g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">853:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _d<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">854:</font>       pf<font color="#990000">.</font>dp<font color="#990000">.</font><b><font color="#000000">drawDomino</font></b><font color="#990000">(</font>g<font color="#990000">,</font> d<font color="#990000">);</font>
+<font color="#000000">855:</font>     <font color="#FF0000">}</font>
+<font color="#000000">856:</font>   <font color="#FF0000">}</font>
+<font color="#000000">857:</font> 
+<font color="#000000">858:</font>   <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#009900">int</font> <b><font color="#000000">gecko</font></b><font color="#990000">(</font><font color="#009900">int</font> _<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">859:</font>     <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>_ <font color="#990000">==</font> <font color="#990000">(</font><font color="#993399">32</font> <font color="#990000">&amp;</font> <font color="#993399">16</font><font color="#990000">))</font> <font color="#FF0000">{</font>
+<font color="#000000">860:</font>       <b><font color="#0000FF">return</font></b> <font color="#990000">-</font><font color="#993399">7</font><font color="#990000">;</font>
+<font color="#000000">861:</font>     <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">862:</font>       <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>_ <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">863:</font>         <b><font color="#0000FF">return</font></b> <b><font color="#000000">gecko</font></b><font color="#990000">(</font>_ <font color="#990000">+</font> <font color="#993399">1</font> <font color="#990000">|</font> <font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">864:</font>       <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+<font color="#000000">865:</font>         <b><font color="#0000FF">return</font></b> <b><font color="#000000">gecko</font></b><font color="#990000">(</font>_ <font color="#990000">-</font> <font color="#993399">1</font> <font color="#990000">|</font> <font color="#993399">0</font><font color="#990000">);</font>
+<font color="#000000">866:</font>       <font color="#FF0000">}</font>
+<font color="#000000">867:</font>     <font color="#FF0000">}</font>
+<font color="#000000">868:</font>   <font color="#FF0000">}</font>
+<font color="#000000">869:</font> 
+<font color="#000000">870:</font>   <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">drawGuesses</font></b><font color="#990000">(</font><font color="#008080">Graphics</font> g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">871:</font>     <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Domino</font> d <font color="#990000">:</font> _g<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">872:</font>       pf<font color="#990000">.</font>dp<font color="#990000">.</font><b><font color="#000000">drawDomino</font></b><font color="#990000">(</font>g<font color="#990000">,</font> d<font color="#990000">);</font>
+<font color="#000000">873:</font>     <font color="#FF0000">}</font>
+<font color="#000000">874:</font>   <font color="#FF0000">}</font>
+<font color="#000000">875:</font> 
+<font color="#000000">876:</font> <font color="#FF0000">}</font>
+<font color="#000000">877:</font> </tt></pre>

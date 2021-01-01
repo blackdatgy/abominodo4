@@ -1,0 +1,32 @@
+<!-- Generator: GNU source-highlight 3.1.3
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><font color="#000000">01:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.*;</font>
+<font color="#000000">02:</font> <b><font color="#000080">import</font></b> java<font color="#990000">.</font>net<font color="#990000">.*;</font>
+<font color="#000000">03:</font> 
+<font color="#000000">04:</font> <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">final</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">IOLibrary</font> <font color="#FF0000">{</font>
+<font color="#000000">05:</font>   <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#008080">String</font> <b><font color="#000000">getString</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">06:</font>     <font color="#008080">BufferedReader</font> r <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">BufferedReader</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">InputStreamReader</font></b><font color="#990000">(</font>System<font color="#990000">.</font>in<font color="#990000">));</font>
+<font color="#000000">07:</font>     <b><font color="#0000FF">do</font></b> <font color="#FF0000">{</font>
+<font color="#000000">08:</font>       <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">09:</font>         <b><font color="#0000FF">return</font></b> r<font color="#990000">.</font><b><font color="#000000">readLine</font></b><font color="#990000">();</font>
+<font color="#000000">10:</font>       <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">11:</font>       <font color="#FF0000">}</font>
+<font color="#000000">12:</font>     <font color="#FF0000">}</font> <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">);</font>
+<font color="#000000">13:</font>   <font color="#FF0000">}</font>
+<font color="#000000">14:</font> 
+<font color="#000000">15:</font>   <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#008080">InetAddress</font> <b><font color="#000000">getIPAddress</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+<font color="#000000">16:</font>     <font color="#008080">BufferedReader</font> r <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">BufferedReader</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">InputStreamReader</font></b><font color="#990000">(</font>System<font color="#990000">.</font>in<font color="#990000">));</font>
+<font color="#000000">17:</font>     <b><font color="#0000FF">do</font></b> <font color="#FF0000">{</font>
+<font color="#000000">18:</font>       <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+<font color="#000000">19:</font>         String<font color="#990000">[]</font> chunks <font color="#990000">=</font> r<font color="#990000">.</font><b><font color="#000000">readLine</font></b><font color="#990000">().</font><b><font color="#000000">split</font></b><font color="#990000">(</font><font color="#FF0000">"</font><font color="#CC33CC">\\</font><font color="#FF0000">."</font><font color="#990000">);</font>
+<font color="#000000">20:</font>         <font color="#009900">byte</font><font color="#990000">[]</font> data <font color="#990000">=</font> <font color="#FF0000">{</font> Byte<font color="#990000">.</font><b><font color="#000000">parseByte</font></b><font color="#990000">(</font>chunks<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]),</font>Byte<font color="#990000">.</font><b><font color="#000000">parseByte</font></b><font color="#990000">(</font>chunks<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">]),</font>Byte<font color="#990000">.</font><b><font color="#000000">parseByte</font></b><font color="#990000">(</font>chunks<font color="#990000">[</font><font color="#993399">2</font><font color="#990000">]),</font>Byte<font color="#990000">.</font><b><font color="#000000">parseByte</font></b><font color="#990000">(</font>chunks<font color="#990000">[</font><font color="#993399">3</font><font color="#990000">])</font><font color="#FF0000">}</font><font color="#990000">;</font>
+<font color="#000000">21:</font>         <b><font color="#0000FF">return</font></b> Inet4Address<font color="#990000">.</font><b><font color="#000000">getByAddress</font></b><font color="#990000">(</font>data<font color="#990000">);</font>
+<font color="#000000">22:</font>       <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">Exception</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+<font color="#000000">23:</font>       <font color="#FF0000">}</font>
+<font color="#000000">24:</font>     <font color="#FF0000">}</font> <b><font color="#0000FF">while</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">);</font>
+<font color="#000000">25:</font>   <font color="#FF0000">}</font>
+<font color="#000000">26:</font> 
+<font color="#000000">27:</font> <font color="#FF0000">}</font>
+<font color="#000000">28:</font> </tt></pre>
