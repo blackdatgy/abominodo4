@@ -89,17 +89,9 @@ public class PictureFrame {
     protected void paintComponent(Graphics g) {
       g.setColor(Color.YELLOW);
       g.fillRect(0, 0, getWidth(), getHeight());
-
-      // numbaz(g);
-      //
-      // if (master!=null && master.orig != null) {
-      // drawRoll(g, master.orig);
-      // }
-      // if (reroll != null) {
-      // drawReroll(g, reroll);
-      // }
-      //
-      // drawGrid(g);
+     
+      
+       drawGrid(g);
       if (master.mode == 1) {
         drawGridLines(g);
         drawHeadings(g);
@@ -133,9 +125,16 @@ public class PictureFrame {
     }
   }
 
-  public void reset() {
-    // TODO Auto-generated method stub
-
+  public void reset(Aardvark sf) {
+	  	master = sf;
+	    if (dp == null) {
+	      JFrame f = new JFrame("Abominodo");
+	      dp = new DominoPanel();
+	      f.setContentPane(dp);
+	      f.pack();
+	      f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	      f.setVisible(false);
+	    }
   }
 
 }
