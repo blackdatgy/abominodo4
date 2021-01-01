@@ -160,14 +160,13 @@ public class Aardvark {
   }
 
   private void rotateDominoes() {
-    // for (Domino d : dominoes) {
-    // if (Math.random() > 0.5) {
-    // System.out.println("rotating " + d);
-    // }
-    // }
+     for (Domino d : _d) {
+    if (Math.random() > 0.5) {
+     System.out.println("rotating " + d);
+    }
+     }
     for (int x = 0; x < 7; x++) {
       for (int y = 0; y < 6; y++) {
-
         tryToRotateDominoAt(x, y);
       }
     }
@@ -278,8 +277,7 @@ public class Aardvark {
   public void run() {
     IOSpecialist io = new IOSpecialist();
 
-    System.out
-        .println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
+    System.out.println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
     System.out.println("Version 1.0 (c), Kevan Buckley, 2010");
     System.out.println();
     System.out.println(MultiLinugualStringTable.getMessage(0));
@@ -332,13 +330,13 @@ public class Aardvark {
         System.out.println("1) Simples");
         System.out.println("2) Not-so-simples");
         System.out.println("3) Super-duper-shuffled");
-        int c2 = -7;
+        int c2 = -8;
         while (!(c2 == 1 || c2 == 2 || c2 == 3)) {
           try {
             String s2 = io.getString();
             c2 = Integer.parseInt(s2);
           } catch (Exception e) {
-            c2 = -7;
+            c2 = -8;
           }
         }
         switch (c2) {
@@ -347,7 +345,6 @@ public class Aardvark {
           shuffleDominoesOrder();
           placeDominoes();
           collateGrid();
-          // printGrid();
           break;
         case 2:
           generateDominoes();
@@ -355,15 +352,13 @@ public class Aardvark {
           placeDominoes();
           rotateDominoes();
           collateGrid();
-          // printGrid();
           break;
         default:
           generateDominoes();
           shuffleDominoesOrder();
           placeDominoes();
           rotateDominoes();
-          rotateDominoes();
-          rotateDominoes();
+          rotateDominoes();          
           invertSomeDominoes();
           collateGrid();
           break;
