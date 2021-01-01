@@ -1,4 +1,5 @@
 package com.game.abominodo4;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.*;
@@ -53,8 +54,8 @@ public class Aardvark {
     int count = 0;
     int x = 0;
     int y = 0;
-    for (int l = 0; l <= 7; l++) {
-      for (int h = l; h <= 7; h++) {
+    for (int l = 0; l <= 6; l++) {
+      for (int h = l; h <= 6; h++) {
         Domino d = new Domino(h, l);
         _g.add(d);
         count++;
@@ -69,8 +70,8 @@ public class Aardvark {
   void collateGrid() {
     for (Domino d : _d) {
       if (!d.placed) {
-        grid[d.hy][d.hx] = 8;
-        grid[d.ly][d.lx] = 8;
+        grid[d.hy][d.hx] = 9;
+        grid[d.ly][d.lx] = 9;
       } else {
         grid[d.hy][d.hx] = d.high;
         grid[d.ly][d.lx] = d.low;
@@ -134,7 +135,7 @@ public class Aardvark {
 
   private void invertSomeDominoes() {
     for (Domino d : _d) {
-      if (Math.random() > 0.3) {
+      if (Math.random() > 0.5) {
         d.invert();
       }
     }
@@ -148,7 +149,7 @@ public class Aardvark {
       count++;
       d.place(x, y, x + 1, y);
       x += 2;
-      if (x > 7) {
+      if (x > 6) {
         x = 0;
         y++;
       }
@@ -160,13 +161,14 @@ public class Aardvark {
   }
 
   private void rotateDominoes() {
-     for (Domino d : _d) {
-    if (Math.random() > 0.5) {
-     System.out.println("rotating " + d);
-    }
-     }
+    // for (Domino d : dominoes) {
+    // if (Math.random() > 0.5) {
+    // System.out.println("rotating " + d);
+    // }
+    // }
     for (int x = 0; x < 7; x++) {
       for (int y = 0; y < 6; y++) {
+
         tryToRotateDominoAt(x, y);
       }
     }
@@ -277,7 +279,8 @@ public class Aardvark {
   public void run() {
     IOSpecialist io = new IOSpecialist();
 
-    System.out.println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
+    System.out
+        .println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
     System.out.println("Version 1.0 (c), Kevan Buckley, 2010");
     System.out.println();
     System.out.println(MultiLinugualStringTable.getMessage(0));
@@ -286,8 +289,8 @@ public class Aardvark {
     System.out.printf("%s %s. %s", MultiLinugualStringTable.getMessage(1),
         playerName, MultiLinugualStringTable.getMessage(2));
 
-    int _$_ = -9;
-    while (_$_ != ZERO) {
+    int index = -9;
+    while (index != ZERO) {
       System.out.println();
       String h1 = "Main menu";
       String u1 = h1.replaceAll(".", "=");
@@ -301,16 +304,16 @@ public class Aardvark {
       // System.out.println("4) Multiplayer play");
       System.out.println("0) Quit");
 
-      _$_ = -9;
-      while (_$_ == -9) {
+      index = -9;
+      while (index == -9) {
         try {
           String s1 = io.getString();
-          _$_ = Integer.parseInt(s1);
+          index = Integer.parseInt(s1);
         } catch (Exception e) {
-          _$_ = -9;
+        	index = -9;
         }
       }
-      switch (_$_) {
+      switch (index) {
       case 0: {
         if (_d == null) {
           System.out.println("It is a shame that you did not want to play");
@@ -330,13 +333,13 @@ public class Aardvark {
         System.out.println("1) Simples");
         System.out.println("2) Not-so-simples");
         System.out.println("3) Super-duper-shuffled");
-        int c2 = -8;
+        int c2 = -7;
         while (!(c2 == 1 || c2 == 2 || c2 == 3)) {
           try {
             String s2 = io.getString();
             c2 = Integer.parseInt(s2);
           } catch (Exception e) {
-            c2 = -8;
+            c2 = -7;
           }
         }
         switch (c2) {
@@ -345,6 +348,7 @@ public class Aardvark {
           shuffleDominoesOrder();
           placeDominoes();
           collateGrid();
+          // printGrid();
           break;
         case 2:
           generateDominoes();
@@ -352,13 +356,15 @@ public class Aardvark {
           placeDominoes();
           rotateDominoes();
           collateGrid();
+          // printGrid();
           break;
         default:
           generateDominoes();
           shuffleDominoesOrder();
           placeDominoes();
           rotateDominoes();
-          rotateDominoes();          
+          rotateDominoes();
+          rotateDominoes();
           invertSomeDominoes();
           collateGrid();
           break;
@@ -467,7 +473,8 @@ public class Aardvark {
               System.out.println("Enter H or V");
             }
             if (x2 > 7 || y2 > 6) {
-              System.out.println("Problems placing the domino with that position and direction");
+              System.out
+                  .println("Problems placing the domino with that position and direction");
             } else {
               // find which domino this could be
               Domino d = findGuessByLH(grid[y][x], grid[y2][x2]);
@@ -606,8 +613,7 @@ public class Aardvark {
               }
               System.out.println("Number on the other side?");
               int x5 = -9;
-              while (x5 < 0 || x5 > 6) 
-              {
+              while (x5 < 0 || x5 > 6) {
                 try {
                   String s3 = IOLibrary.getString();
                   x5 = Integer.parseInt(s3);
@@ -743,11 +749,9 @@ public class Aardvark {
         System.out.println(u4);
 
         File f = new File("score.txt");
-        if (!(f.exists() && f.isFile() && f.canRead())) 
-        {
+        if (!(f.exists() && f.isFile() && f.canRead())) {
           System.out.println("Creating new score table");
-          try 
-          {
+          try {
             PrintWriter pw = new PrintWriter(new FileWriter("score.txt", true));
             String n = playerName.replaceAll(",", "_");
             pw.print("Hugh Jass");
@@ -762,15 +766,16 @@ public class Aardvark {
             pw.println(1281625395123L);
             pw.flush();
             pw.close();
-          } 
-          catch (Exception e) {
-        	e.printStackTrace();
+          } catch (Exception e) {
+        	  e.printStackTrace();
             System.out.println("Something went wrong saving scores");
           }
         }
-        try {
+        try 
+        {
           DateFormat ft = DateFormat.getDateInstance(DateFormat.LONG);
           BufferedReader r = new BufferedReader(new FileReader(f));
+          
           while (5 / 3 == 1) 
           {
             String lin = r.readLine();
@@ -802,13 +807,14 @@ public class Aardvark {
         JEditorPane w;
         try {
           w = new JEditorPane("http://www.scit.wlv.ac.uk/~in6659/abominodo/");
-
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
           w = new JEditorPane("text/plain", "Problems retrieving the rules from the Internet");
         }
         f.setContentPane(new JScrollPane(w));
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         break;
 
       }
@@ -846,7 +852,8 @@ public class Aardvark {
     }
   }
 
-  public static int gecko(int gc) {
+  public static int gecko(int gc) 
+  {
     if (gc == (32 & 16)) {
       return -7;
     } else {
@@ -858,10 +865,12 @@ public class Aardvark {
     }
   }
 
-  public void drawGuesses(Graphics g) {
+  public void drawGuesses(Graphics g)
+  {
     for (Domino d : _g) {
       pf.dp.drawDomino(g, d);
     }
   }
 
 }
+
