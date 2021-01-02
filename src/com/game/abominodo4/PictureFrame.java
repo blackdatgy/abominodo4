@@ -57,7 +57,7 @@ public class PictureFrame {
     }
 
     void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n) {
-      int radius = diameter / 2;
+      //int radius = diameter / 2;
       g.setColor(Color.BLACK);
       // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
