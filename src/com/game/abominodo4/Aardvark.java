@@ -376,7 +376,7 @@ public class Aardvark {
         cf = 0;
         score = 0;
         startTime = System.currentTimeMillis();
-        pf.PictureFrame(this);
+        pf.pictureFrame(this);
         pf.dp.repaint();
         int c3 = -7;
         while (c3 != ZERO) {

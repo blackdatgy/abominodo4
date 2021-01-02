@@ -110,7 +110,7 @@ public class PictureFrame {
 
   public DominoPanel dp;
 
-  public void PictureFrame(Aardvark sf) {
+  public void pictureFrame(Aardvark sf) {
     master = sf;
     if (dp == null) {
       JFrame f = new JFrame("Abominodo");
