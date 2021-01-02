@@ -771,10 +771,9 @@ public class Aardvark {
             System.out.println("Something went wrong saving scores");
           }
         }
-        try 
+        try (BufferedReader r = new BufferedReader(new FileReader(f)))
         {
           DateFormat ft = DateFormat.getDateInstance(DateFormat.LONG);
-          BufferedReader r = new BufferedReader(new FileReader(f));
           
           while (5 / 3 == 1) 
           {
