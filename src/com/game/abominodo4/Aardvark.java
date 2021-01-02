@@ -753,7 +753,7 @@ public class Aardvark {
           System.out.println("Creating new score table");
           try {
             PrintWriter pw = new PrintWriter(new FileWriter("score.txt", true));
-            String n = playerName.replaceAll(",", "_");
+            //String n = playerName.replaceAll(",", "_");
             pw.print("Hugh Jass");
             pw.print(",");
             pw.print(1500);
