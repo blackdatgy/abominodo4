@@ -39,8 +39,10 @@ public class PictureFrame {
       }
     }
 
-    public void drawDomino(Graphics g, Domino d) {
-      if (d.placed) {
+    public void drawDomino(Graphics g, Domino d) 
+    {
+      if (d.placed) 
+      {
         int y = Math.min(d.ly, d.hy);
         int x = Math.min(d.lx, d.hx);
         int w = Math.abs(d.lx - d.hx) + 1;
@@ -49,10 +51,8 @@ public class PictureFrame {
         g.fillRect(20 + x * 20, 20 + y * 20, w * 20, h * 20);
         g.setColor(Color.RED);
         g.drawRect(20 + x * 20, 20 + y * 20, w * 20, h * 20);
-        drawDigitGivenCentre(g, 30 + d.hx * 20, 30 + d.hy * 20, 20, d.high,
-            Color.BLUE);
-        drawDigitGivenCentre(g, 30 + d.lx * 20, 30 + d.ly * 20, 20, d.low,
-            Color.BLUE);
+        drawDigitGivenCentre(g, 30 + d.hx * 20, 30 + d.hy * 20, 20, d.high, Color.BLUE);
+        drawDigitGivenCentre(g, 30 + d.lx * 20, 30 + d.ly * 20, 20, d.low,  Color.BLUE);
       }
     }
 
@@ -65,9 +65,8 @@ public class PictureFrame {
       g.drawString(txt, x - fm.stringWidth(txt) / 2, y + fm.getMaxAscent() / 2);
     }
 
-    void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n,
-        Color c) {
-      int radius = diameter / 2;
+    void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n, Color c) {
+      // int radius = diameter / 2;
       g.setColor(c);
       // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
