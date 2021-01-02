@@ -122,7 +122,7 @@ public class PictureFrame {
     }
   }
 
-  public void reset(Aardvark sf) {
+  /*public void reset(Aardvark sf) {
 	master = sf;
     if (dp == null) 
     {
@@ -133,5 +133,5 @@ public class PictureFrame {
       f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
       f.setVisible(false);
     }
-  }
+  }*/
 }
