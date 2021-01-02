@@ -766,8 +766,8 @@ public class Aardvark {
             pw.println(1281625395123L);
             pw.flush();
             pw.close();
-          } catch (Exception e) {
-        	  e.printStackTrace();
+          } 
+          catch (Exception e) {        	  
             System.out.println("Something went wrong saving scores");
           }
         }
@@ -775,7 +775,7 @@ public class Aardvark {
         {
           DateFormat ft = DateFormat.getDateInstance(DateFormat.LONG);
           
-          while (5 / 3 == 1) 
+          while (true) 
           {
             String lin = r.readLine();
             if (lin == null || lin.length() == 0)
