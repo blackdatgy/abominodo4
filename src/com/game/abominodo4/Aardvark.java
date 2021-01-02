@@ -44,7 +44,7 @@ public class Aardvark {
       }
     }
     if (count != 28) {
-      System.out.println("something went wrong generating dominoes");
+      System.out.println("Something went wrong generating dominoes");
       System.exit(0);
     }
   }
@@ -62,7 +62,7 @@ public class Aardvark {
       }
     }
     if (count != 28) {
-      System.out.println("something went wrong generating dominoes");
+      System.out.println("Something went wrong generating dominoes");
       System.exit(0);
     }
   }
@@ -155,23 +155,26 @@ public class Aardvark {
       }
     }
     if (count != 28) {
-      System.out.println("something went wrong generating dominoes");
+      System.out.println("Something went wrong generating dominoes");
       System.exit(0);
     }
   }
 
-  private void rotateDominoes() {
-    // for (Domino d : dominoes) {
-    // if (Math.random() > 0.5) {
-    // System.out.println("rotating " + d);
-    // }
-    // }
-    for (int x = 0; x < 7; x++) {
-      for (int y = 0; y < 6; y++) {
-
-        tryToRotateDominoAt(x, y);
-      }
-    }
+  private void rotateDominoes() 
+  {
+     /*for (Domino d : dominoes) 
+     {
+	     if (Math.random() > 0.5) {
+	    	 System.out.println("rotating " + d);
+	     }
+     }*/
+     
+     for (int x = 0; x < 7; x++) 
+     {
+	      for (int y = 0; y < 6; y++) {
+	        tryToRotateDominoAt(x, y);
+	      }
+     }
   }
 
   private void tryToRotateDominoAt(int x, int y) {
@@ -207,7 +210,6 @@ public class Aardvark {
             d.hy = y;
           }
         }
-
       }
     }
   }
@@ -279,21 +281,19 @@ public class Aardvark {
   public void run() {
     IOSpecialist io = new IOSpecialist();
 
-    System.out
-        .println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
+    System.out.println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
     System.out.println("Version 1.0 (c), Kevan Buckley, 2010");
     System.out.println();
     System.out.println(MultiLinugualStringTable.getMessage(0));
     playerName = io.getString();
 
-    System.out.printf("%s %s. %s", MultiLinugualStringTable.getMessage(1),
-        playerName, MultiLinugualStringTable.getMessage(2));
+    System.out.printf("%s %s. %s", MultiLinugualStringTable.getMessage(1), playerName, MultiLinugualStringTable.getMessage(2));
 
     int index = -9;
     while (index != ZERO) {
       System.out.println();
       String h1 = "Main menu";
-      String u1 = h1.replaceAll(".", "=");
+      String u1 = h1.replaceAll(".", "==");
       System.out.println(u1);
       System.out.println(h1);
       System.out.println(u1);
@@ -326,7 +326,7 @@ public class Aardvark {
       case 1: {
         System.out.println();
         String h4 = "Select difficulty";
-        String u4 = h4.replaceAll(".", "=");
+        String u4 = h4.replaceAll(".", "==");
         System.out.println(u4);
         System.out.println(h4);
         System.out.println(u4);
@@ -382,7 +382,7 @@ public class Aardvark {
         while (c3 != ZERO) {
           System.out.println();
           String h5 = "Play menu";
-          String u5 = h5.replaceAll(".", "=");
+          String u5 = h5.replaceAll(".", "==");
           System.out.println(u5);
           System.out.println(h5);
           System.out.println(u5);
@@ -549,7 +549,7 @@ public class Aardvark {
           case 6:
             System.out.println();
             String h8 = "So you want to cheat, huh?";
-            String u8 = h8.replaceAll(".", "=");
+            String u8 = h8.replaceAll(".", "==");
             System.out.println(u8);
             System.out.println(h8);
             System.out.println(u8);
@@ -743,7 +743,7 @@ public class Aardvark {
         break;
       case 2: {
         String h4 = "High Scores";
-        String u4 = h4.replaceAll(".", "=");
+        String u4 = h4.replaceAll(".", "==");
         System.out.println(u4);
         System.out.println(h4);
         System.out.println(u4);
@@ -794,7 +794,7 @@ public class Aardvark {
 
       case 3: {
         String h4 = "Rules";
-        String u4 = h4.replaceAll(".", "=");
+        String u4 = h4.replaceAll(".", "==");
         System.out.println(u4);
         System.out.println(h4);
         System.out.println(u4);
@@ -813,7 +813,6 @@ public class Aardvark {
         f.setContentPane(new JScrollPane(w));
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         break;
 
       }
