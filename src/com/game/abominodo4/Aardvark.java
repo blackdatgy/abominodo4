@@ -14,8 +14,8 @@ import javax.swing.JScrollPane;
 public class Aardvark {
 
   private String playerName;
-  public List<Domino> _d;
-  public List<Domino> _g;
+  private List<Domino> dl;	// This is a bad smell for variable declaration _d to dl or dList and you need to declare class variable as private
+  private List<Domino> gl;	// This is a bad smell for variable declaration _g to gl or gList and you need to declare class variable as private
   public int[][] grid = new int[7][8];
   public int[][] gg = new int[7][8];
   int mode = -1;
@@ -26,14 +26,14 @@ public class Aardvark {
   PictureFrame pf = new PictureFrame();
 
   private void generateDominoes() {
-    _d = new LinkedList<Domino>();
+	dl = new LinkedList<Domino>();
     int count = 0;
     int x = 0;
     int y = 0;
     for (int l = 0; l <= 6; l++) {
       for (int h = l; h <= 6; h++) {
         Domino d = new Domino(h, l);
-        _d.add(d);
+        dl.add(d);
         d.place(x, y, x + 1, y);
         count++;
         x += 2;
@@ -44,31 +44,31 @@ public class Aardvark {
       }
     }
     if (count != 28) {
-      System.out.println("Something went wrong generating dominoes");
+      System.out.println(KeyConstant.MSG_WRONG_DOMINOES);	// You need to add all message in a constant class- this is a bad smell this fixed like this
       System.exit(0);
     }
   }
 
   private void generateGuesses() {
-    _g = new LinkedList<Domino>();
+    gl = new LinkedList<Domino>();
     int count = 0;
-    //int x = 0;
-    //int y = 0;
+    //int x = 0;		//The value of the local variable x is not used - this is a bad smell this fixed like this
+    //int y = 0;		//The value of the local variable y is not used - this is a bad smell this fixed like this
     for (int l = 0; l <= 6; l++) {
       for (int h = l; h <= 6; h++) {
         Domino d = new Domino(h, l);
-        _g.add(d);
+        gl.add(d);
         count++;
       }
     }
     if (count != 28) {
-      System.out.println("Something went wrong generating dominoes");
+      System.out.println(KeyConstant.MSG_WRONG_DOMINOES);
       System.exit(0);
     }
   }
 
   void collateGrid() {
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       if (!d.placed) {
         grid[d.hy][d.hx] = 9;
         grid[d.ly][d.lx] = 9;
@@ -85,7 +85,7 @@ public class Aardvark {
         gg[r][c] = 9;
       }
     }
-    for (Domino d : _g) {
+    for (Domino d : gl) {
       if (d.placed) {
         gg[d.hy][d.hx] = d.high;
         gg[d.ly][d.lx] = d.low;
@@ -124,17 +124,17 @@ public class Aardvark {
   private void shuffleDominoesOrder() {
     List<Domino> shuffled = new LinkedList<Domino>();
 
-    while (_d.size() > 0) {
-      int n = (int) (Math.random() * _d.size());
-      shuffled.add(_d.get(n));
-      _d.remove(n);
+    while (dl.size() > 0) {
+      int n = (int) (Math.random() * dl.size());
+      shuffled.add(dl.get(n));
+      dl.remove(n);
     }
 
-    _d = shuffled;
+    dl = shuffled;
   }
 
   private void invertSomeDominoes() {
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       if (Math.random() > 0.5) {
         d.invert();
       }
@@ -145,7 +145,7 @@ public class Aardvark {
     int x = 0;
     int y = 0;
     int count = 0;
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       count++;
       d.place(x, y, x + 1, y);
       x += 2;
@@ -155,7 +155,7 @@ public class Aardvark {
       }
     }
     if (count != 28) {
-      System.out.println("Something went wrong generating dominoes");
+      System.out.println(KeyConstant.MSG_WRONG_DOMINOES);
       System.exit(0);
     }
   }
@@ -229,7 +229,7 @@ public class Aardvark {
   }
 
   private Domino findDominoAt(int x, int y) {
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       if ((d.lx == x && d.ly == y) || (d.hx == x && d.hy == y)) {
         return d;
       }
@@ -238,7 +238,7 @@ public class Aardvark {
   }
 
   private Domino findGuessAt(int x, int y) {
-    for (Domino d : _g) {
+    for (Domino d : gl) {
       if ((d.lx == x && d.ly == y) || (d.hx == x && d.hy == y)) {
         return d;
       }
@@ -247,7 +247,7 @@ public class Aardvark {
   }
 
   private Domino findGuessByLH(int x, int y) {
-    for (Domino d : _g) {
+    for (Domino d : gl) {
       if ((d.low == x && d.high == y) || (d.high == x && d.low == y)) {
         return d;
       }
@@ -256,7 +256,7 @@ public class Aardvark {
   }
 
   private Domino findDominoByLH(int x, int y) {
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       if ((d.low == x && d.high == y) || (d.high == x && d.low == y)) {
         return d;
       }
@@ -265,19 +265,20 @@ public class Aardvark {
   }
 
   private void printDominoes() {
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       System.out.println(d);
     }
   }
 
   private void printGuesses() {
-    for (Domino d : _g) {
+    for (Domino d : gl) {
       System.out.println(d);
     }
   }
 
   public final int ZERO = 0;
 
+  // This is a long method bad smell this fixed like this
   public void run() {
     IOSpecialist io = new IOSpecialist();
 
@@ -315,7 +316,7 @@ public class Aardvark {
       }
       switch (index) {
       case 0: {
-        if (_d == null) {
+        if (dl == null) {
           System.out.println("It is a shame that you did not want to play");
         } else {
           System.out.println("Thankyou for playing");
@@ -376,6 +377,7 @@ public class Aardvark {
         cf = 0;
         score = 0;
         startTime = System.currentTimeMillis();
+        //pf.PictureFrame(this);	//Method name is not same as the constructor name - this is a bad smell this fixed like this
         pf.pictureFrame(this);
         pf.dp.repaint();
         int c3 = -7;
@@ -417,7 +419,7 @@ public class Aardvark {
             printGuessGrid();
             break;
           case 3:
-            Collections.sort(_g);
+            Collections.sort(gl);
             printGuesses();
             break;
           case 4:
@@ -448,7 +450,7 @@ public class Aardvark {
             x--;
             y--;
             System.out.println("Horizontal or Vertical (H or V)?");
-            //boolean horiz;
+            //boolean horiz;	//The value of the local variable horiz is not used - this is a bad smell this fixed like this
             int y2,
             x2;
             Location lotion;
@@ -457,13 +459,13 @@ public class Aardvark {
               if (s3 != null && s3.toUpperCase().startsWith("H")) {
                 lotion = new Location(x, y, Location.DIRECTION.HORIZONTAL);
                 System.out.println("Direction to place is " + lotion.d);
-               // horiz = true;
+               // horiz = true;	// You need not to initialize the value, because it's not used
                 x2 = x + 1;
                 y2 = y;
                 break;
               }
               if (s3 != null && s3.toUpperCase().startsWith("V")) {
-               // horiz = false;
+               // horiz = false;	// You need not to initialize the value, because it's not used
                 lotion = new Location(x, y, Location.DIRECTION.VERTICAL);
                 System.out.println("Direction to place is " + lotion.d);
                 x2 = x;
@@ -587,7 +589,8 @@ public class Aardvark {
                 } else {
                   score -= 100;
                 }
-                playerName = playerName + "(scoundrel)";
+               // playerName = playerName + "(scoundrel)"; This is a bad smell this fixed like this
+                playerName += "(scoundrel)";
                 cf++;
                 break;
               default:
@@ -735,7 +738,7 @@ public class Aardvark {
         recordTheScore();
         System.out.println("Here is the solution:");
         System.out.println();
-        Collections.sort(_d);
+        Collections.sort(dl);
         printDominoes();
         System.out.println("you scored " + score);
 
@@ -748,12 +751,12 @@ public class Aardvark {
         System.out.println(h4);
         System.out.println(u4);
 
-        File f = new File("score.txt");
+        File f = new File(KeyConstant.FILE_NAME_SCORE);	// String literals should not be duplicated
         if (!(f.exists() && f.isFile() && f.canRead())) {
           System.out.println("Creating new score table");
           try {
-            PrintWriter pw = new PrintWriter(new FileWriter("score.txt", true));
-            //String n = playerName.replaceAll(",", "_");
+            PrintWriter pw = new PrintWriter(new FileWriter(KeyConstant.FILE_NAME_SCORE, true));
+            //String n = playerName.replaceAll(",", "_");	// You need not to initialize the value, because this value is never used
             pw.print("Hugh Jass");
             pw.print(",");
             pw.print(1500);
@@ -768,14 +771,16 @@ public class Aardvark {
             pw.close();
           } 
           catch (Exception e) {        	  
-            System.out.println("Something went wrong saving scores");
+            System.out.println(KeyConstant.MSG_WRONG_DOMINOES);
           }
         }
-        try (BufferedReader r = new BufferedReader(new FileReader(f)))
+        try (BufferedReader r = new BufferedReader(new FileReader(f)))	// So better to used try with resources like this
         {
           DateFormat ft = DateFormat.getDateInstance(DateFormat.LONG);
+         // BufferedReader r = new BufferedReader(new FileReader(f));	// declared BufferedReader is Not closed - this is a bad smell
           
-          while (true) 
+         // while (5/3 == 1)	// This is a very bad smell coding
+          while (true) // Better to used boolean value true, which is always satisfy the condition.
           {
             String lin = r.readLine();
             if (lin == null || lin.length() == 0)
@@ -805,7 +810,7 @@ public class Aardvark {
         f.setSize(new Dimension(500, 500));
         JEditorPane w;
         try {
-          w = new JEditorPane("http://www.scit.wlv.ac.uk/~in6659/abominodo/");
+          w = new JEditorPane(KeyConstant.J_PANEL_URI);
         } 
         catch (Exception e) {
           w = new JEditorPane("text/plain", "Problems retrieving the rules from the Internet");
@@ -826,7 +831,7 @@ public class Aardvark {
 
   private void recordTheScore() {
     try {
-      PrintWriter pw = new PrintWriter(new FileWriter("score.txt", true));
+      PrintWriter pw = new PrintWriter(new FileWriter(KeyConstant.FILE_NAME_SCORE, true));
       String n = playerName.replaceAll(",", "_");
       pw.print(n);
       pw.print(",");
@@ -836,7 +841,7 @@ public class Aardvark {
       pw.flush();
       pw.close();
     } catch (Exception e) {
-      System.out.println("Something went wrong saving scores");
+      System.out.println(KeyConstant.MSG_WRONG_DOMINOES);
     }
   }
 
@@ -845,7 +850,7 @@ public class Aardvark {
   }
 
   public void drawDominoes(Graphics g) {
-    for (Domino d : _d) {
+    for (Domino d : dl) {
       pf.dp.drawDomino(g, d);
     }
   }
@@ -865,7 +870,7 @@ public class Aardvark {
 
   public void drawGuesses(Graphics g)
   {
-    for (Domino d : _g) {
+    for (Domino d : gl) {
       pf.dp.drawDomino(g, d);
     }
   }
