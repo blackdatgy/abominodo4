@@ -52,8 +52,8 @@ public class Aardvark {
   private void generateGuesses() {
     gl = new LinkedList<Domino>();
     int count = 0;
-    //int x = 0;		//The value of the local variable x is not used - this is a bad smell this fixed like this
-    //int y = 0;		//The value of the local variable y is not used - this is a bad smell this fixed like this
+    //int x = 0;		//The value of the local variable x is not used - this is a bad smell (Temporary Field) this fixed like this
+    //int y = 0;		//The value of the local variable y is not used - this is a bad smell (Temporary Field) this fixed like this
     for (int l = 0; l <= 6; l++) {
       for (int h = l; h <= 6; h++) {
         Domino d = new Domino(h, l);
@@ -278,7 +278,7 @@ public class Aardvark {
 
   public final int ZERO = 0;
 
-  // This is a long method bad smell this fixed like this
+  // This is a long method bad smell (Bloaters-Long Method) this fixed like this
   public void run() {
     IOSpecialist io = new IOSpecialist();
 
@@ -377,7 +377,7 @@ public class Aardvark {
         cf = 0;
         score = 0;
         startTime = System.currentTimeMillis();
-        //pf.PictureFrame(this);	//Method name is not same as the constructor name - this is a bad smell this fixed like this
+        //pf.PictureFrame(this);	//Method name is not same as the constructor name - this is a bad smell (Naming Convention) this fixed like this
         pf.pictureFrame(this);
         pf.dp.repaint();
         int c3 = -7;
@@ -450,7 +450,7 @@ public class Aardvark {
             x--;
             y--;
             System.out.println("Horizontal or Vertical (H or V)?");
-            //boolean horiz;	//The value of the local variable horiz is not used - this is a bad smell this fixed like this
+            //boolean horiz;	//The value of the local variable horiz is not used - this is a bad smell (Temporary Field) this fixed like this
             int y2,
             x2;
             Location lotion;
@@ -459,13 +459,13 @@ public class Aardvark {
               if (s3 != null && s3.toUpperCase().startsWith("H")) {
                 lotion = new Location(x, y, Location.DIRECTION.HORIZONTAL);
                 System.out.println("Direction to place is " + lotion.d);
-               // horiz = true;	// You need not to initialize the value, because it's not used
+               // horiz = true;	// You need not to initialize the value, because it's not used (bad smell - Temporary Field)
                 x2 = x + 1;
                 y2 = y;
                 break;
               }
               if (s3 != null && s3.toUpperCase().startsWith("V")) {
-               // horiz = false;	// You need not to initialize the value, because it's not used
+               // horiz = false;	// You need not to initialize the value, because it's not used (bad smell - Temporary Field)
                 lotion = new Location(x, y, Location.DIRECTION.VERTICAL);
                 System.out.println("Direction to place is " + lotion.d);
                 x2 = x;
@@ -589,7 +589,7 @@ public class Aardvark {
                 } else {
                   score -= 100;
                 }
-               // playerName = playerName + "(scoundrel)"; This is a bad smell this fixed like this
+               // playerName = playerName + "(scoundrel)"; //This is a bad smell (magic number) this fixed like this
                 playerName += "(scoundrel)";
                 cf++;
                 break;
@@ -751,12 +751,12 @@ public class Aardvark {
         System.out.println(h4);
         System.out.println(u4);
 
-        File f = new File(KeyConstant.FILE_NAME_SCORE);	// String literals should not be duplicated
+        File f = new File(KeyConstant.FILE_NAME_SCORE);	// String literals should not be duplicated (bad smell Duplicated Field)
         if (!(f.exists() && f.isFile() && f.canRead())) {
           System.out.println("Creating new score table");
           try {
             PrintWriter pw = new PrintWriter(new FileWriter(KeyConstant.FILE_NAME_SCORE, true));
-            //String n = playerName.replaceAll(",", "_");	// You need not to initialize the value, because this value is never used
+            //String n = playerName.replaceAll(",", "_");	// You need not to initialize the value, because this value is never used (bad smell Temporary Field)
             pw.print("Hugh Jass");
             pw.print(",");
             pw.print(1500);
@@ -779,7 +779,7 @@ public class Aardvark {
           DateFormat ft = DateFormat.getDateInstance(DateFormat.LONG);
          // BufferedReader r = new BufferedReader(new FileReader(f));	// declared BufferedReader is Not closed - this is a bad smell
           
-         // while (5/3 == 1)	// This is a very bad smell coding
+         // while (5/3 == 1)	// This is a very bad smell (Data Clumps) 
           while (true) // Better to used boolean value true, which is always satisfy the condition.
           {
             String lin = r.readLine();

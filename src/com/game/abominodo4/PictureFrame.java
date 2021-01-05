@@ -57,7 +57,7 @@ public class PictureFrame {
     }
 
     void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n) {
-     // int radius = diameter / 2;	// The value of the local variable radius is not used - this is a bad smell this fixed like this
+     // int radius = diameter / 2;	// The value of the local variable radius is not used - this is a bad smell (Temporary Field) this fixed like this
       g.setColor(Color.BLACK);
       // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
@@ -66,7 +66,7 @@ public class PictureFrame {
     }
 
     void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n, Color c) {
-      // int radius = diameter / 2; // The value of the local variable radius is not used - this is a bad smell this fixed like this
+      // int radius = diameter / 2; // The value of the local variable radius is not used - this is a bad smell (Temporary Field) this fixed like this
       g.setColor(c);
       // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
@@ -109,7 +109,7 @@ public class PictureFrame {
   }
 
   public DominoPanel dp;
-  //public void pictureFrame(Aardvark sf) { // Method name is not same as the constructor name - this is a bad smell this fixed like this
+  //public void pictureFrame(Aardvark sf) { // Method name is not same as the constructor name - this is a bad smell (Data Clumps) this fixed like this
   public void pictureFrame(Aardvark sf) {
     master = sf;
     if (dp == null) {
@@ -122,7 +122,7 @@ public class PictureFrame {
     }
   }
   
-// This ia an Unused method - this is a bad smell this fixed like this
+// This ia an Unused method - this is a bad smell (Refused Bequest) this fixed like this
   /*public void reset(Aardvark sf) {
 	master = sf;
     if (dp == null) 
