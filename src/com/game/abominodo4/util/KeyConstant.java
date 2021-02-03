@@ -1,4 +1,4 @@
-package com.game.abominodo4;
+package com.game.abominodo4.util;
 
 public class KeyConstant 
 {

@@ -1,4 +1,4 @@
-package com.game.abominodo4;
+package com.game.abominodo4.model;
 public class Domino implements Comparable<Domino> {
 	  public int high;
 	  public int low;

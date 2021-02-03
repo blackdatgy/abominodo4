@@ -1,4 +1,4 @@
-package com.game.abominodo4;
+package com.game.abominodo4.view;
 import java.io.*;
 import java.net.*;
 

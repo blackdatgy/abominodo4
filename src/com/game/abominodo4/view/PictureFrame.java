@@ -1,20 +1,22 @@
-package com.game.abominodo4;
+package com.game.abominodo4.view;
 import java.awt.*;
 
 import javax.swing.*;
+
+import com.game.abominodo4.controller.Aardvark;
+import com.game.abominodo4.model.Domino;
 
 public class PictureFrame {
   public int[] reroll = null;
   Aardvark master = null;
 
-  class DominoPanel extends JPanel {
+  public class DominoPanel extends JPanel {
     private static final long serialVersionUID = 4190229282411119364L;
 
     public void drawGrid(Graphics g) {
       for (int are = 0; are < 7; are++) {
         for (int see = 0; see < 8; see++) {
-          drawDigitGivenCentre(g, 30 + see * 20, 30 + are * 20, 20,
-              master.grid[are][see]);
+          drawDigitGivenCentre(g, 30 + see * 20, 30 + are * 20, 20, master.grid[are][see], Color.BLACK);
         }
       }
     }
@@ -56,14 +58,14 @@ public class PictureFrame {
       }
     }
 
-    void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n) {
+   /* void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n) {
      // int radius = diameter / 2;	// The value of the local variable radius is not used - this is a bad smell (Temporary Field) this fixed like this
       g.setColor(Color.BLACK);
       // g.drawOval(x - radius, y - radius, diameter, diameter);
       FontMetrics fm = g.getFontMetrics();
       String txt = Integer.toString(n);
       g.drawString(txt, x - fm.stringWidth(txt) / 2, y + fm.getMaxAscent() / 2);
-    }
+    }*/
 
     void drawDigitGivenCentre(Graphics g, int x, int y, int diameter, int n, Color c) {
       // int radius = diameter / 2; // The value of the local variable radius is not used - this is a bad smell (Temporary Field) this fixed like this

@@ -1,4 +1,4 @@
-package com.game.abominodo4;
+package com.game.abominodo4.model;
 
 public class Location extends SpacePlace {
   public int c;

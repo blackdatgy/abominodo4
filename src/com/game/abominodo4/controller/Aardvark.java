@@ -1,4 +1,4 @@
-package com.game.abominodo4;
+package com.game.abominodo4.controller;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,6 +11,16 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import com.game.abominodo4.model.Domino;
+import com.game.abominodo4.model.Location;
+import com.game.abominodo4.model.Location.DIRECTION;
+import com.game.abominodo4.service.ConnectionGenius;
+import com.game.abominodo4.service.IOSpecialist;
+import com.game.abominodo4.util.KeyConstant;
+import com.game.abominodo4.util.MultiLinugualStringTable;
+import com.game.abominodo4.view.IOLibrary;
+import com.game.abominodo4.view.PictureFrame;
+
 public class Aardvark {
 
   private String playerName;
@@ -18,7 +28,7 @@ public class Aardvark {
   private List<Domino> gl;	// This is a bad smell for variable declaration _g to gl or gList and you need to declare class variable as private
   public int[][] grid = new int[7][8];
   public int[][] gg = new int[7][8];
-  int mode = -1;
+  public int mode = -1;
   int cf;
   int score;
   long startTime;
@@ -178,11 +188,24 @@ public class Aardvark {
   }
 
   private void tryToRotateDominoAt(int x, int y) {
-    Domino d = findDominoAt(x, y);
-    if (thisIsTopLeftOfDomino(x, y, d)) {
-      if (d.ishl()) {
-        boolean weFancyARotation = Math.random() < 0.5;
-        if (weFancyARotation) {
+	  try
+	  {
+	    Domino d = findDominoAt(x, y);
+	    boolean status = thisIsTopLeftOfDomino(x, y, d);
+	    if (status) {
+	    	boolean isWeFancyARotation = Math.random() < 0.5;    	
+	    	if (d.ishl()) 
+	    		methodIshlTrue(x, y, d, isWeFancyARotation);        
+	    	else 
+	    		methodIshlFalse(x, y, d, isWeFancyARotation);
+	    }
+	  }
+	  catch(NullPointerException e) {e.printStackTrace();}
+  }
+  
+  private Domino methodIshlTrue(int x, int y, Domino d, boolean isWeFancyARotation)
+  {
+	  if (isWeFancyARotation) {
           if (theCellBelowIsTopLeftOfHorizontalDomino(x, y)) {
             Domino e = findDominoAt(x, y + 1);
             e.hx = x;
@@ -194,11 +217,11 @@ public class Aardvark {
             d.ly = y + 1;
             d.hy = y;
           }
-        }
-      } else {
-        boolean weFancyARotation = Math.random() < 0.5;
-        if (weFancyARotation) {
-          if (theCellToTheRightIsTopLeftOfVerticalDomino(x, y)) {
+       }
+	  return d;
+  }
+  private Domino methodIshlFalse(int x, int y, Domino d, boolean isWeFancyARotation) {
+	  if (theCellToTheRightIsTopLeftOfVerticalDomino(x, y)) {
             Domino e = findDominoAt(x + 1, y);
             e.hx = x;
             e.lx = x + 1;
@@ -208,10 +231,8 @@ public class Aardvark {
             e.hy = y + 1;
             d.ly = y;
             d.hy = y;
-          }
-        }
-      }
-    }
+     }
+	 return d;
   }
 
   private boolean theCellToTheRightIsTopLeftOfVerticalDomino(int x, int y) {
@@ -330,7 +351,8 @@ public class Aardvark {
         String u4 = h4.replaceAll(".", "==");
         System.out.println(u4);
         System.out.println(h4);
-        System.out.println(u4);
+        System.out.println(
+);
         System.out.println("1) Simples");
         System.out.println("2) Not-so-simples");
         System.out.println("3) Super-duper-shuffled");
