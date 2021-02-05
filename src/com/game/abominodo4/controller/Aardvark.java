@@ -301,8 +301,9 @@ public class Aardvark {
 
   // This is a long method bad smell (Bloaters-Long Method) this fixed like this
   public void run() {
+	  
     IOSpecialist io = new IOSpecialist();
-
+    
     System.out.println("Welcome To Abominodo - The Best Dominoes Puzzle Game in the Universe");
     System.out.println("Version 1.0 (c), Kevan Buckley, 2010");
     System.out.println();
@@ -314,6 +315,7 @@ public class Aardvark {
     int index = -9;
     while (index != ZERO) {
       System.out.println();
+
       String h1 = "Main menu";
       String u1 = h1.replaceAll(".", "==");
       System.out.println(u1);
@@ -346,6 +348,7 @@ public class Aardvark {
         break;
       }
       case 1: {
+    	  
         System.out.println();
         String h4 = "Select difficulty";
         String u4 = h4.replaceAll(".", "==");
