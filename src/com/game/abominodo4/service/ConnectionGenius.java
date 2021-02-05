@@ -17,7 +17,7 @@ public class ConnectionGenius {
   }
   
   public void downloadWebVersion(){
-    System.out.println("Getting specialised web version.");
+    System.out.println("Getting specialised web version..");
     System.out.println("Wait a couple of moments");  
   }
   

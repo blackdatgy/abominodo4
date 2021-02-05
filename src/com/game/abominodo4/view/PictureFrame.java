@@ -278,8 +278,8 @@ public class PictureFrame{
       JLabel label = new JLabel("Choose Difficulties", SwingConstants.CENTER);
         label.setForeground(Color.RED);
         cp.add(label);
-      // Create a JButton with text and icon and set its appearances
-      JButton button = new JButton(); // use setter to set text and icon
+      // Create a JButton with text and icon and set its appearances.
+      JButton button = new JButton(); // use setter to set text and icon.
       button.setText("Simples");
       button.setVerticalAlignment(SwingConstants.TOP);  // of text and icon
       //button.setHorizontalAlignment(SwingConstants.RIGHT); // of text and icon
@@ -294,10 +294,10 @@ public class PictureFrame{
       cp.add(button);
       
       
-      JButton button1 = new JButton(); // use setter to set text and icon
+      JButton button1 = new JButton(); // use setter to set text and icon.
       button1.setText("Not-so-simples");
-      button1.setVerticalAlignment(SwingConstants.TOP);  // of text and icon
-      //button.setHorizontalAlignment(SwingConstants.RIGHT); // of text and icon
+      button1.setVerticalAlignment(SwingConstants.TOP);  // of text and icon.
+      //button.setHorizontalAlignment(SwingConstants.RIGHT); // of text and icon.
       //button.setHorizontalTextPosition(SwingConstants.CENTER); // of text relative to icon
       //button.setVerticalTextPosition(SwingConstants.TOP);    // of text relative to icon
       button1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
@@ -309,18 +309,18 @@ public class PictureFrame{
       cp.add(button1);
       
       
-      JButton button2 = new JButton(); // use setter to set text and icon
+      JButton button2 = new JButton(); // use setter to set text and icon.
       button2.setText("Super-duper-shuffled");
-      button2.setVerticalAlignment(SwingConstants.TOP);  // of text and icon
-      //button.setHorizontalAlignment(SwingConstants.RIGHT); // of text and icon
-      //button.setHorizontalTextPosition(SwingConstants.CENTER); // of text relative to icon
+      button2.setVerticalAlignment(SwingConstants.TOP);  // of text and icon.
+      //button.setHorizontalAlignment(SwingConstants.RIGHT); // of text and icon.
+      //button.setHorizontalTextPosition(SwingConstants.CENTER); // of text relative to icon.
       //button.setVerticalTextPosition(SwingConstants.TOP);    // of text relative to icon
       button2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
       button2.setBackground(new Color(231, 240, 248));
       button2.setForeground(Color.BLUE);
       button2.setPreferredSize(new Dimension(240, 30));
       //button.setToolTipText("This is a JButton");
-      //button.setMnemonic(KeyEvent.VK_B);  // can activate via Alt-B (buttons only)
+      //button.setMnemonic(KeyEvent.VK_B);  // can activate via Alt-B (buttons only...)
       cp.add(button2);
       
      
